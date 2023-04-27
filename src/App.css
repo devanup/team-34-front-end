@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
+
+/* **BODY** */
+/* Body Tag*/
+body {
+  margin: 0;
+  padding: 0;
+  /* font-family: 'Lexend', sans-serif !important; */
+  font-family: 'Poppins', sans-serif !important;
+  /* font-family: 'Tenor Sans', sans-serif !important; */
+}
+/* Body wrap div*/
+.body-wrap {
+  position: relative;
+  /* max-width: 1500px; */
+  height: 100vh;
+  margin: auto;
+  padding-left: 150px;
+  padding-right: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  /* background-color: rgba(246, 243, 211, 0.8); */
+}
+/* **BODY END** */
+
+/* **SPECIFIC FONT** */
+/* Specific font for specific items in the App */
+.sans-serif{
+  font-family: 'Lexend', sans-serif !important;
+}
+/* **SPECIFIC FONT END** */

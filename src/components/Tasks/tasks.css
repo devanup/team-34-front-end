@@ -1,0 +1,100 @@
+/* **TABLE** */
+/* Card heading */
+.table-card {
+    /* border-width: 2px !important; */
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom: none !important;
+    position: relative;
+    /* padding: 15px; */
+}
+.table {
+    border: 1px solid rgba(216, 216, 216, 1.00) !important;
+    border-top: none !important;
+    /* border-bottom-left-radius: 15px !important;
+    border-bottom-right-radius: 15px !important; */
+}
+/* Table head */
+thead {
+    background-color: rgba(220, 220, 220, .5);
+}
+th {
+    padding: 15px !important;
+}
+td {
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+    /* background-color: blueviolet !important; */
+}
+/* Table button */
+.table-card .btn {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    /* background-color: rgba(102, 25, 221, 1.00) !important; */
+    /* border: none !important; */
+}
+/* Priority badge */
+.priority {
+    position: relative;
+    font-weight: 500;
+    /* text-align: center; */
+    /* background-color: violet !important; */
+}
+.priority-dot{
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: rgba(102, 25, 221, 1.00);
+}
+/* High priority badge */
+.priority-high { color: rgba(102, 25, 221, 1.00); }
+/* High priority badge dot*/
+.priority-dot-high{ background-color: rgba(102, 25, 221, 1.00); }
+/* Medium priority badge*/
+.priority-med { color: rgba(21, 121, 124, 1.00); }
+/* Medium priority badge dot*/
+.priority-dot-med{ background-color: rgba(21, 121, 124, 1.00); }
+/* Low priority badge*/
+.priority-low { color: rgba(185, 131, 48, 1.00); }
+/* Low priority badge dot*/
+.priority-dot-low{ background-color: rgba(185, 131, 48, 1.00); }
+/* Task status label */
+.status-label {
+    /* background-color:wheat !important; */
+    padding: 10px;
+    border-radius: 7px;
+    font-weight: 500;
+}
+/* Label bg-color */
+.status-label-not-started {
+    background-color: rgba(230, 219, 19, .25);
+}
+/* Label bg-color */
+.status-label-in-progress {
+    background-color: rgba(29, 161, 242, .2);
+}
+/* Label bg-color */
+.status-label-completed {
+    background-color: rgba(237, 249, 232, 1.00);
+}
+/* Label color */
+.td-not-started {
+    color: rgba(218, 196, 4, 1.00);
+}
+/* Label color */
+.td-in-progress {
+    color: rgba(29, 161, 242, 1.00);
+}
+/* Label color */
+.td-completed {
+    color: rgba(87, 126, 65, 1.00);
+}
+/* **TABLE END** */

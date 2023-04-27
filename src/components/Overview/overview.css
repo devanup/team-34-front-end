@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Tenor+Sans&display=swap');
+
+/* **OVERVIEW/DASHBOARD** */
+/* Overview/Dashboard */
+.overview {
+    width: 100%;
+    margin: auto;
+    border: none !important;
+    /* background-color: rgba(220, 220, 220, 0.3) !important; */
+}
+/* Dashboard card items*/
+.overview .card {
+    border-radius: 15px;
+    background-color: rgba(232, 229, 221, .3);
+    /* background-color: red; */
+}
+/* Dashboard icons */
+.overview .card .icon {
+    width: 50px ;
+    height: 50px ;
+    margin: auto ;
+    line-height: 50px ;
+    border-radius: 12px ;
+    font-size: 1.4rem ;
+    background-color: #fff ;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+/* Dashboard card item icon */
+.task-card i {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+/* Card item icon */
+.completed-card i {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+/* Card item icon */
+.employees-card i {
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+/* **OVERVIEW/DASHBOARD END** */
