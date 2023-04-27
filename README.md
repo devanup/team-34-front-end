@@ -1,3 +1,9 @@
+# Front-End for CRUD app by Team-34
+
+<a href="https://devanup.github.io/team-34-front-end/">https://devanup.github.io/team-34-front-end/</a>
+
+<p>Team members: Anup, Jackie, Sukhi</p>
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

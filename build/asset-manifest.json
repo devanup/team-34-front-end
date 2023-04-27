@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/team-34-front-end/static/css/main.f00d21e6.css",
+    "main.js": "/team-34-front-end/static/js/main.453ff5ba.js",
+    "index.html": "/team-34-front-end/index.html",
+    "main.f00d21e6.css.map": "/team-34-front-end/static/css/main.f00d21e6.css.map",
+    "main.453ff5ba.js.map": "/team-34-front-end/static/js/main.453ff5ba.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f00d21e6.css",
+    "static/js/main.453ff5ba.js"
+  ]
+}
