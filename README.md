@@ -11,6 +11,7 @@
 - [ ] can navigate to any single employee’s view
 - [ ] can navigate to all tasks view
 - [ ] can navigate to any single task’s view
+- [ ] make the app responsive in smaller devices
 
 ## Getting Started with Create React App
 
