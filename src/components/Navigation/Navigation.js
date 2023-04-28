@@ -6,22 +6,47 @@ import {
 	faGrip,
 	faPeopleGroup,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link, useLocation } from 'react-router-dom';
+
 function Navigation() {
+	const location = useLocation();
+
 	return (
 		<div className='navigation'>
-			<a href='#' className='active-link'>
+			<Link
+				className={`link ${location.pathname === '/' ? 'active-link' : ''}`}
+				to='/'
+			>
 				<FontAwesomeIcon icon={faGrip} className='nav-icon' />
 				<span className='tool-tip'>Dashboard</span>
-				<span className='active-indicator'></span>
-			</a>
-			<a href='#'>
+				{location.pathname === '/' && (
+					<span className='active-indicator'></span>
+				)}
+			</Link>
+			<Link
+				className={`link ${
+					location.pathname === '/tasks' ? 'active-link' : ''
+				}`}
+				to='/tasks'
+			>
 				<FontAwesomeIcon icon={faClipboardList} className='nav-icon' />
 				<span className='tool-tip'>Tasks</span>
-			</a>
-			<a href='#'>
+				{location.pathname === '/tasks' && (
+					<span className='active-indicator'></span>
+				)}
+			</Link>
+			<Link
+				className={`link ${
+					location.pathname === '/employees' ? 'active-link' : ''
+				}`}
+				to='/employees'
+			>
 				<FontAwesomeIcon icon={faPeopleGroup} className='nav-icon' />
 				<span className='tool-tip'>Employees</span>
-			</a>
+				{location.pathname === '/employees' && (
+					<span className='active-indicator'></span>
+				)}
+			</Link>
 		</div>
 	);
 }

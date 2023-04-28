@@ -7,9 +7,9 @@
 ## Goals
 
 - [x] ~~will land on a visually pleasing homepage by default, which allows navigation to view all tasks and all employees~~
-- [ ] can navigate to all employees view
+- [x] can navigate to all employees view
 - [ ] can navigate to any single employee’s view
-- [ ] can navigate to all tasks view
+- [x] can navigate to all tasks view
 - [ ] can navigate to any single task’s view
 - [ ] make the app responsive in smaller devices
 

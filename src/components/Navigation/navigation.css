@@ -24,7 +24,7 @@
     z-index: 1000;
 }
 /* Navigation items */
-.navigation a {
+.navigation .link {
     display: block;
     margin-bottom: 20px;
     position: relative;
@@ -36,7 +36,7 @@
     text-align: center;
 }
 /* Navigation item icons*/
-.navigation a .nav-icon {
+.navigation .link .nav-icon {
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -47,11 +47,11 @@
 
 }
 /* Active link styling*/
-.navigation a.active-link {
+.navigation .link.active-link {
     border-radius: 50%;
 }
 /* Hover effect on navigation items */
-.navigation a:hover {
+.navigation .link:hover {
     border-radius: 50%;
     -webkit-box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.08);
     -moz-box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.08);
@@ -59,7 +59,7 @@
     transition: ease .3s;
 }
 /* Div to indicate active page in nav  */
-.navigation a .active-indicator {
+.navigation .link .active-indicator {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -84,7 +84,7 @@ a .tool-tip {
     background-color: rgba(33, 31, 38, 1);
 }
 /* Display tool-tip when navigation item is hovered */
-a:hover .tool-tip {
+.link:hover .tool-tip {
     display: block;
 }
 /* **NAVIGATION END** */

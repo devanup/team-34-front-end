@@ -1,17 +1,22 @@
 import './App.css';
-import Employees from './components/Employees/Employees';
 import Navigation from './components/Navigation/Navigation';
-import Overview from './components/Overview/Overview';
-import Tasks from './components/Tasks/Tasks';
+import { Dashboard } from './pages/Dashboard';
+import { TasksPage } from './pages/TasksPage';
+import { EmployeesPage } from './pages/EmployeesPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
 	return (
 		<div className='App'>
 			<div className='body-wrap'>
-				<Navigation />
-				<Overview />
-				<Tasks />
-				<Employees />
+				<Router>
+					<Navigation />
+					<Routes>
+						<Route exact path='/' element={<Dashboard />} />
+						<Route path='/tasks' element={<TasksPage />} />
+						<Route path='/employees' element={<EmployeesPage />} />
+					</Routes>
+				</Router>
 			</div>
 		</div>
 	);

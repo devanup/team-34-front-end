@@ -6,6 +6,7 @@ import {
 	faClock,
 	faCheckCircle,
 } from '@fortawesome/free-regular-svg-icons';
+import { Link } from 'react-router-dom';
 
 function Tasks() {
 	return (
@@ -18,9 +19,11 @@ function Tasks() {
 								<h2 className='sans-serif tasks-heading p-4 m-0'>Tasks</h2>
 							</Col>
 							<Col>
-								<Button variant='dark' className='btn'>
-									View All Tasks
-								</Button>
+								<Link to='/tasks'>
+									<Button variant='dark' className='btn'>
+										View All Tasks
+									</Button>
+								</Link>
 							</Col>
 						</Row>
 					</Card>
