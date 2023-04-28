@@ -1,12 +1,6 @@
 import '../Tasks/tasks.css';
 import { Row, Col, Card, Button, Table, Container } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faCircle,
-	faClock,
-	faCheckCircle,
-} from '@fortawesome/free-regular-svg-icons';
-
+import { Link } from 'react-router-dom';
 function Employees() {
 	return (
 		<Container fluid className='p-0'>
@@ -18,13 +12,14 @@ function Employees() {
 								<h2 className='sans-serif p-4 m-0'>Employees</h2>
 							</Col>
 							<Col>
-								<Button variant='dark' className='btn'>
-									View All Employees
-								</Button>
+								<Link to='/employees'>
+									<Button variant='dark' className='btn'>
+										View All Employees
+									</Button>
+								</Link>
 							</Col>
 						</Row>
 					</Card>
-
 					<Table borderless responsive>
 						<thead className='sans-serif'>
 							<tr>
@@ -55,6 +50,8 @@ function Employees() {
 							</tr>
 						</tbody>
 					</Table>
+					{/* the div below was added to leave a space at the bottom of the in the Homepage */}
+					<div className='mb-5'></div>{' '}
 				</Col>
 			</Row>
 		</Container>
