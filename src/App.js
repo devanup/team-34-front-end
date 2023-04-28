@@ -14,7 +14,7 @@ function App() {
 	return (
 		<div className='App'>
 			<div className='body-wrap'>
-				<HashRouter>
+				<HashRouter basename='/'>
 					<Navigation />
 					<Routes>
 						<Route exact path='/' element={<Dashboard />} />
