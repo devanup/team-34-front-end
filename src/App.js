@@ -9,10 +9,10 @@ function App() {
 	return (
 		<div className='App'>
 			<div className='body-wrap'>
-				<Router>
+				<Router basename={window.location.pathname || ''}>
 					<Navigation />
 					<Routes>
-						<Route exact path='/team-34-front-end' element={<Dashboard />} />
+						<Route exact path='/' element={<Dashboard />} />
 						<Route path='/tasks' element={<TasksPage />} />
 						<Route path='/employees' element={<EmployeesPage />} />
 					</Routes>
