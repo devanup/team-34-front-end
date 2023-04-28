@@ -3,12 +3,7 @@ import Navigation from './components/Navigation/Navigation';
 import { Dashboard } from './pages/Dashboard';
 import { TasksPage } from './pages/TasksPage';
 import { EmployeesPage } from './pages/EmployeesPage';
-import {
-	BrowserRouter as Router,
-	HashRouter,
-	Routes,
-	Route,
-} from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 	return (

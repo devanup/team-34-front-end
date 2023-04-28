@@ -59,9 +59,9 @@ td {
 /* High priority badge dot*/
 .priority-dot-high{ background-color: rgba(102, 25, 221, 1.00); }
 /* Medium priority badge*/
-.priority-med { color: rgba(21, 121, 124, 1.00); }
+.priority-medium { color: rgba(21, 121, 124, 1.00); }
 /* Medium priority badge dot*/
-.priority-dot-med{ background-color: rgba(21, 121, 124, 1.00); }
+.priority-dot-medium{ background-color: rgba(21, 121, 124, 1.00); }
 /* Low priority badge*/
 .priority-low { color: rgba(185, 131, 48, 1.00); }
 /* Low priority badge dot*/
@@ -72,6 +72,10 @@ td {
     padding: 10px;
     border-radius: 7px;
     font-weight: 500;
+}
+/* Task status label icon*/
+.status-icon{
+    margin-right: 10px;
 }
 /* Label bg-color */
 .status-label-not-started {
@@ -98,3 +102,33 @@ td {
     color: rgba(87, 126, 65, 1.00);
 }
 /* **TABLE END** */
+
+.empty-state{
+    width: 100%;
+    text-align: center;
+    /* background-color: antiquewhite; */
+}
+
+.empty-state-icon-wrap{
+    width: 100px;
+    height: 100px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: saturate(0);
+    opacity: .8;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.tick-icon{
+    background-image: url('../../../public/award.png');
+}
+
+.add-people-icon{
+    background-image: url('../../../public/add-user.png');
+}
+
+.create-icon{
+    margin-right: 10px;
+}

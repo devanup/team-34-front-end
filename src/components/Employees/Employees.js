@@ -1,7 +1,35 @@
 import '../Tasks/tasks.css';
 import { Row, Col, Card, Button, Table, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-function Employees() {
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
+
+function Employees({ showAddEmployeeButton }) {
+	const [employees, setEmployees] = useState([
+		{
+			firstName: 'Jason',
+			lastName: 'Smith',
+			department: 'Marketing',
+			taskAssigned: 'None',
+			taskCompleted: '2',
+		},
+		{
+			firstName: 'Kayla',
+			lastName: 'Davis',
+			department: 'Design',
+			taskAssigned: '1',
+			taskCompleted: '4',
+		},
+		{
+			firstName: 'Andre',
+			lastName: 'Chen',
+			department: 'Engineering',
+			taskAssigned: '2',
+			taskCompleted: '3',
+		},
+	]);
+
 	return (
 		<Container fluid className='p-0'>
 			<Row className='mb-5'>
@@ -12,11 +40,24 @@ function Employees() {
 								<h2 className='sans-serif p-4 m-0'>Employees</h2>
 							</Col>
 							<Col>
-								<Link to='/employees'>
-									<Button variant='dark' className='btn'>
-										View All Employees
-									</Button>
-								</Link>
+								{showAddEmployeeButton && (
+									<Link to=''>
+										<Button variant='dark' className='btn'>
+											<FontAwesomeIcon
+												icon={faCirclePlus}
+												className='create-icon'
+											/>
+											Add New Employee
+										</Button>
+									</Link>
+								)}
+								{!showAddEmployeeButton && (
+									<Link to='/employees'>
+										<Button variant='dark' className='btn'>
+											View All Employees
+										</Button>
+									</Link>
+								)}
 							</Col>
 						</Row>
 					</Card>
@@ -30,24 +71,35 @@ function Employees() {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>Jason Smith</td>
-								<td className='department'>Marketing</td>
-								<td className='task-assigned-count'>None</td>
-								<td>2</td>
-							</tr>
-							<tr>
-								<td>Kayla Davis</td>
-								<td className='department'>Design</td>
-								<td className='task-assigned-count'>1</td>
-								<td>4</td>
-							</tr>
-							<tr>
-								<td>Andre Chen</td>
-								<td className='department'>Engineering</td>
-								<td className='task-assigned-count'>2</td>
-								<td>3</td>
-							</tr>
+							{employees.length === 0 ? (
+								<tr>
+									<td colSpan='4'>
+										<div className='empty-state'>
+											<div className='mt-4 mb-4 empty-state-icon-wrap add-people-icon'></div>
+											<h3>You're all by yourself</h3>
+											<p>Add a new employee to get things moving</p>
+											<Button variant='dark' className='mt-3 mb-3 btn'>
+												<FontAwesomeIcon
+													icon={faCirclePlus}
+													className='create-icon'
+												/>
+												Add New Employee
+											</Button>
+										</div>
+									</td>
+								</tr>
+							) : (
+								employees.map((employee, index) => (
+									<tr key={index}>
+										<td>{`${employee.firstName} ${employee.lastName}`}</td>
+										<td className='department'>{employee.department}</td>
+										<td className='task-assigned-count'>
+											{employee.taskAssigned}
+										</td>
+										<td>{employee.taskCompleted}</td>
+									</tr>
+								))
+							)}
 						</tbody>
 					</Table>
 					{/* the div below was added to leave a space at the bottom of the in the Homepage */}
@@ -57,4 +109,5 @@ function Employees() {
 		</Container>
 	);
 }
+
 export default Employees;
