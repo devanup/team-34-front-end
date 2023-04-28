@@ -9,7 +9,7 @@ function App() {
 	return (
 		<div className='App'>
 			<div className='body-wrap'>
-				<Router basename={window.location.pathname || ''}>
+				<Router basename='/team-34-front-end/'>
 					<Navigation />
 					<Routes>
 						<Route exact path='/' element={<Dashboard />} />
