@@ -15,7 +15,7 @@ function Navigation() {
 		<div className='navigation'>
 			<Link
 				className={`link ${location.pathname === '/' ? 'active-link' : ''}`}
-				to='/team-34-front-end'
+				to=''
 			>
 				<FontAwesomeIcon icon={faGrip} className='nav-icon' />
 				<span className='tool-tip'>Dashboard</span>

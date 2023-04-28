@@ -3,20 +3,25 @@ import Navigation from './components/Navigation/Navigation';
 import { Dashboard } from './pages/Dashboard';
 import { TasksPage } from './pages/TasksPage';
 import { EmployeesPage } from './pages/EmployeesPage';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	HashRouter,
+	Routes,
+	Route,
+} from 'react-router-dom';
 
 function App() {
 	return (
 		<div className='App'>
 			<div className='body-wrap'>
-				<Router>
+				<HashRouter>
 					<Navigation />
 					<Routes>
-						<Route exact path='/team-34-front-end' element={<Dashboard />} />
+						<Route exact path='/' element={<Dashboard />} />
 						<Route path='/tasks' element={<TasksPage />} />
 						<Route path='/employees' element={<EmployeesPage />} />
 					</Routes>
-				</Router>
+				</HashRouter>
 			</div>
 		</div>
 	);
