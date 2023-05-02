@@ -5,6 +5,8 @@ import {
 	faClipboardList,
 	faClock,
 	faCheckCircle,
+	faRectangleList,
+	faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { Helmet } from 'react-helmet';
@@ -17,6 +19,29 @@ export const TasksPage = () => {
 			<Card className='overview p-0 mb-4'>
 				<Card.Body className='p-0'>
 					<Container fluid className='p-0'>
+						<Row>
+							<Col md={8}>
+								<h2 className='sans-serif mt-2 mb-5'>
+									{/* <FontAwesomeIcon icon={faRectangleList} />*/} Tasks
+									Overview
+								</h2>
+							</Col>
+							<Col md>
+								<div className='search-wrap'>
+									<div className='search-icon-wrap'>
+										<FontAwesomeIcon
+											className='search-icon'
+											icon={faMagnifyingGlass}
+										/>
+									</div>
+									<input
+										type='text'
+										placeholder='Search Task'
+										className='search-input'
+									/>
+								</div>
+							</Col>
+						</Row>
 						<Row className='text-center'>
 							<Col md={3}>
 								<Card className='card task-card p-3 mb-4'>

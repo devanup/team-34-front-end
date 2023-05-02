@@ -4,10 +4,11 @@ import {
 	faClipboardList,
 	faCheckCircle,
 	faPeopleGroup,
+	faMagnifyingGlass,
 } from '@fortawesome/free-solid-svg-icons';
 import Employees from '../components/Employees/Employees';
 import { Helmet } from 'react-helmet';
-
+import { AddEmployee } from '../components/Employees/AddEmployeeForm';
 export const EmployeesPage = () => {
 	return (
 		<div>
@@ -17,6 +18,29 @@ export const EmployeesPage = () => {
 			<Card className='overview p-0 mb-4'>
 				<Card.Body className='p-0'>
 					<Container fluid className='p-0'>
+						<Row>
+							<Col md={8}>
+								<h2 className='sans-serif mt-2 mb-5'>
+									{/* <FontAwesomeIcon icon={faRectangleList} />*/} Employees
+									Overview
+								</h2>
+							</Col>
+							<Col md>
+								<div className='search-wrap'>
+									<div className='search-icon-wrap'>
+										<FontAwesomeIcon
+											className='search-icon'
+											icon={faMagnifyingGlass}
+										/>
+									</div>
+									<input
+										type='text'
+										placeholder='Search employee'
+										className='search-input'
+									/>
+								</div>
+							</Col>
+						</Row>
 						<Row className='text-center'>
 							<Col md>
 								<Card className='card task-card p-3 mb-4'>
