@@ -6,8 +6,10 @@ import {
 	faClock,
 	faCheckCircle,
 } from '@fortawesome/free-regular-svg-icons';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { CreateTaskForm } from './CreateTaskForm';
 
 function Tasks({ showCreateNewTaskButton }) {
 	const tasks = [
@@ -30,6 +32,16 @@ function Tasks({ showCreateNewTaskButton }) {
 			assignee: 'Christian Wu',
 		},
 	];
+	const [displayForm, setDisplayForm] = useState(false);
+
+	const handleShowFormBtn = () => {
+		setDisplayForm(true);
+	};
+
+	const handleCloseFormBtn = () => {
+		setDisplayForm(false);
+	};
+
 	return (
 		<Container fluid className='p-0'>
 			<Row className='mb-5'>
@@ -42,11 +54,12 @@ function Tasks({ showCreateNewTaskButton }) {
 							<Col>
 								{showCreateNewTaskButton && (
 									<Link to=''>
-										<Button variant='dark' className='btn'>
-											<FontAwesomeIcon
-												icon={faCirclePlus}
-												className='create-icon'
-											/>
+										<Button
+											variant='dark'
+											className='btn'
+											onClick={handleShowFormBtn}
+										>
+											<FontAwesomeIcon icon={faPlus} className='create-icon' />
 											Create New Task
 										</Button>
 									</Link>
@@ -72,68 +85,80 @@ function Tasks({ showCreateNewTaskButton }) {
 							</tr>
 						</thead>
 						<tbody>
-							{/* Display when there the state is empty */}
+							{tasks.length === 0 ? (
+								<tr>
+									<td colSpan='4'>
+										<div className='empty-state'>
+											<div className='mt-4 mb-4 empty-state-icon-wrap tick-icon'></div>
+											<h3>You're on top of things!</h3>
+											<p>No new tasks at the moment</p>
+										</div>
+									</td>
+								</tr>
+							) : (
+								tasks.map((task, index) => (
+									<tr key={index}>
+										<td>{task.description}</td>
+										<td className='priority'>
+											<span
+												className={`priority-dot priority-dot-${task.priority}`}
+											></span>
+											<span className={`priority-${task.priority}`}>
+												{task.priority.charAt(0).toUpperCase() +
+													task.priority.slice(1)}
+											</span>
+										</td>
+										<td className={`td-status td-${task.status}`}>
+											<span
+												className={`status-label status-label-${task.status}`}
+											>
+												{task.status === 'not-started' && (
+													<FontAwesomeIcon
+														icon={faCircle}
+														className='status-icon'
+													/>
+												)}
+												{task.status === 'in-progress' && (
+													<FontAwesomeIcon
+														icon={faClock}
+														className='status-icon'
+													/>
+												)}
+												{task.status === 'completed' && (
+													<FontAwesomeIcon
+														icon={faCheckCircle}
+														className='status-icon'
+													/>
+												)}
+												{task.status.charAt(0).toUpperCase() +
+													task.status.slice(1)}
+											</span>
+										</td>
+										<td>{task.assignee}</td>
+									</tr>
+								))
+							)}
+							{/* Display when the state is empty */}
 							{/* <tr>
 								<td colSpan='4'>
 									<div className='empty-state'>
 										<div className='mt-4 mb-4 empty-state-icon-wrap tick-icon'></div>
 										<h3>You're on top of things!</h3>
 										<p>No new tasks at the moment</p>
-										<Button variant='dark' className='mt-3 mb-3 btn'>
-											<FontAwesomeIcon
-												icon={faCirclePlus}
-												className='create-icon'
-											/>
-											Create New Task
-										</Button>
 									</div>
 								</td>
 							</tr> */}
-							{tasks.map((task, index) => (
-								<tr key={index}>
-									<td>{task.description}</td>
-									<td className='priority'>
-										<span
-											className={`priority-dot priority-dot-${task.priority}`}
-										></span>
-										<span className={`priority-${task.priority}`}>
-											{task.priority.charAt(0).toUpperCase() +
-												task.priority.slice(1)}
-										</span>
-									</td>
-									<td className={`td-status td-${task.status}`}>
-										<span
-											className={`status-label status-label-${task.status}`}
-										>
-											{task.status === 'not-started' && (
-												<FontAwesomeIcon
-													icon={faCircle}
-													className='status-icon'
-												/>
-											)}
-											{task.status === 'in-progress' && (
-												<FontAwesomeIcon
-													icon={faClock}
-													className='status-icon'
-												/>
-											)}
-											{task.status === 'completed' && (
-												<FontAwesomeIcon
-													icon={faCheckCircle}
-													className='status-icon'
-												/>
-											)}
-											{task.status.charAt(0).toUpperCase() +
-												task.status.slice(1)}
-										</span>
-									</td>
-									<td>{task.assignee}</td>
-								</tr>
-							))}
+							{}
 						</tbody>
 					</Table>
 				</Col>
 			</Row>
+			{displayForm && (
+				<CreateTaskForm
+					displayForm={displayForm}
+					handleCloseFormBtn={handleCloseFormBtn}
+				/>
+			)}
 		</Container>
 	);
 }

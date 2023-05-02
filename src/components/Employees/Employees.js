@@ -2,8 +2,9 @@ import '../Tasks/tasks.css';
 import { Row, Col, Card, Button, Table, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faCirclePlus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
+import { AddEmployee } from './AddEmployeeForm';
 
 function Employees({ showAddEmployeeButton }) {
 	const [employees, setEmployees] = useState([
@@ -22,7 +23,7 @@ function Employees({ showAddEmployeeButton }) {
 			taskCompleted: '4',
 		},
 		{
-			firstName: 'Andre',
+			firstName: 'Andrew',
 			lastName: 'Chen',
 			department: 'Engineering',
 			taskAssigned: '2',
@@ -30,10 +31,19 @@ function Employees({ showAddEmployeeButton }) {
 		},
 	]);
 
+	const [displayForm, setDisplayForm] = useState(false);
+
+	const handleShowFormBtn = () => {
+		setDisplayForm(true);
+	};
+
+	const handleCloseFormBtn = () => {
+		setDisplayForm(false);
+	};
 	return (
 		<Container fluid className='p-0'>
 			<Row className='mb-5'>
-				<Col>
+				<Col className=''>
 					<Card className='table-card'>
 						<Row>
 							<Col xs={8}>
@@ -42,11 +52,12 @@ function Employees({ showAddEmployeeButton }) {
 							<Col>
 								{showAddEmployeeButton && (
 									<Link to=''>
-										<Button variant='dark' className='btn'>
-											<FontAwesomeIcon
-												icon={faCirclePlus}
-												className='create-icon'
-											/>
+										<Button
+											variant='dark'
+											className='btn'
+											onClick={handleShowFormBtn}
+										>
+											<FontAwesomeIcon icon={faPlus} className='create-icon' />
 											Add New Employee
 										</Button>
 									</Link>
@@ -78,13 +89,6 @@ function Employees({ showAddEmployeeButton }) {
 											<div className='mt-4 mb-4 empty-state-icon-wrap add-people-icon'></div>
 											<h3>You're all by yourself</h3>
 											<p>Add a new employee to get things moving</p>
-											<Button variant='dark' className='mt-3 mb-3 btn'>
-												<FontAwesomeIcon
-													icon={faCirclePlus}
-													className='create-icon'
-												/>
-												Add New Employee
-											</Button>
 										</div>
 									</td>
 								</tr>
@@ -106,6 +110,12 @@ function Employees({ showAddEmployeeButton }) {
 					<div className='mb-5'></div>{' '}
 				</Col>
 			</Row>
+			{displayForm && (
+				<AddEmployee
+					displayForm={displayForm}
+					handleCloseFormBtn={handleCloseFormBtn}
+				/>
+			)}
 		</Container>
 	);
 }
