@@ -5,34 +5,46 @@ import {
 	faCircle,
 	faClock,
 	faCheckCircle,
+	faEye,
 } from '@fortawesome/free-regular-svg-icons';
-import { faPlus, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import {
+	faPlus,
+	faCirclePlus,
+	faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { CreateTaskForm } from './CreateTaskForm';
+import { TaskPage } from '../../pages/TaskPage';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function Tasks({ showCreateNewTaskButton }) {
 	const tasks = [
 		{
+			id: 1,
 			description: 'Develop a marketing strategy for product launch',
 			priority: 'medium',
 			status: 'not-started',
 			assignee: 'Mark Davidson',
 		},
 		{
+			id: 2,
 			description: 'Redesign mobile app',
 			priority: 'low',
 			status: 'in-progress',
 			assignee: 'Laura Huff',
 		},
 		{
+			id: 3,
 			description: 'Develop prototype software for MVP',
 			priority: 'high',
 			status: 'completed',
 			assignee: 'Christian Wu',
 		},
 	];
+
 	const [displayForm, setDisplayForm] = useState(false);
+	const [selectedTask, setSelectedTask] = useState(null);
 
 	const handleShowFormBtn = () => {
 		setDisplayForm(true);
@@ -40,6 +52,14 @@ function Tasks({ showCreateNewTaskButton }) {
 
 	const handleCloseFormBtn = () => {
 		setDisplayForm(false);
+	};
+	const navigate = useNavigate();
+
+	const handleViewBtn = (task) => {
+		setSelectedTask(task);
+		console.log(task);
+		// Route to the corresponding Task page
+		navigate(`/tasks/${task.id}`, { state: { task } });
 	};
 
 	return (
@@ -82,6 +102,7 @@ function Tasks({ showCreateNewTaskButton }) {
 								<th>Priority</th>
 								<th>Status</th>
 								<th>Assignee</th>
+								{showCreateNewTaskButton && <th>Action</th>}
 							</tr>
 						</thead>
 						<tbody>
@@ -135,6 +156,24 @@ function Tasks({ showCreateNewTaskButton }) {
 											</span>
 										</td>
 										<td>{task.assignee}</td>
+										{showCreateNewTaskButton && (
+											<td>
+												<Button
+													variant='outline-dark'
+													className='btn'
+													onClick={() => handleViewBtn(task)}
+												>
+													<FontAwesomeIcon icon={faEye} />
+												</Button>
+												<Button
+													variant='outline-danger'
+													className='btn'
+													onClick=''
+												>
+													<FontAwesomeIcon icon={faXmark} />
+												</Button>
+											</td>
+										)}
 									</tr>
 								))
 							)}
@@ -159,6 +198,7 @@ function Tasks({ showCreateNewTaskButton }) {
 					handleCloseFormBtn={handleCloseFormBtn}
 				/>
 			)}
+			{/* {selectedTask !== null && <TaskView task={selectedTask} />} */}
 		</Container>
 	);
 }

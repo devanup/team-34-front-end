@@ -79,6 +79,7 @@ function Employees({ showAddEmployeeButton }) {
 								<th>Department</th>
 								<th>Tasks Assigned</th>
 								<th>Tasks Completed</th>
+								{showAddEmployeeButton && <th>Action</th>}
 							</tr>
 						</thead>
 						<tbody>
@@ -101,6 +102,13 @@ function Employees({ showAddEmployeeButton }) {
 											{employee.taskAssigned}
 										</td>
 										<td>{employee.taskCompleted}</td>
+										{showAddEmployeeButton && (
+											<td>
+												<Button variant='outline-dark' className='btn'>
+													View
+												</Button>
+											</td>
+										)}
 									</tr>
 								))
 							)}
