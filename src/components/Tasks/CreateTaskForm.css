@@ -5,7 +5,7 @@
     margin-bottom: 15px;
     border-radius: 15px;
     padding: 15px;
-    display: none;
+    /* display: none; */
 }
 .name-suggestion .name-list{ 
     list-style: none;

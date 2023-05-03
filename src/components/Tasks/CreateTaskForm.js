@@ -83,14 +83,16 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 								placeholder='Invite team member'
 								className='form-input description'
 							/>
-							<div className='name-suggestion'>
+
+							{/* <div className='name-suggestion'>
 								<ul className='m-0 p-0'>
 									<li className=' mt-1 mb-1 name-list'>Jason Smith</li>
 									<li className=' mt-1 mb-1 name-list'>Kayla Davis</li>
 									<li className=' mt-1 mb-1 name-list'>Andrew Chen</li>
 								</ul>
-							</div>
-							<div className='assignees text-center mt-4 mb-2'>
+							</div> */}
+
+							{/* <div className='assignees text-center mt-4 mb-2'>
 								<ul className='m-0 p-0'>
 									<li className='assignee-list'>
 										Jason Smith{' '}
@@ -106,13 +108,6 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 											className='assignee-list-cross'
 										/>
 									</li>
-									{/* <li className='assignee-list'>
-										Andre Chen{' '}
-										<FontAwesomeIcon
-											icon={faXmark}
-											className='assignee-list-cross'
-										/>
-									</li>
 									<li className='assignee-list'>
 										Andre Chen{' '}
 										<FontAwesomeIcon
@@ -126,11 +121,18 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 											icon={faXmark}
 											className='assignee-list-cross'
 										/>
-									</li> */}
+									</li>
+									<li className='assignee-list'>
+										Andre Chen{' '}
+										<FontAwesomeIcon
+											icon={faXmark}
+											className='assignee-list-cross'
+										/>
+									</li>
 								</ul>
-							</div>
+							</div> */}
 						</Col>
-						<Col style={{ textAlign: 'right' }}>
+						<Col style={{ textAlign: 'right' }} className='mt-5 '>
 							<Button
 								variant='light'
 								style={{
