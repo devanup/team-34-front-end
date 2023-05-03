@@ -146,6 +146,7 @@ td {
     height: 50px;
     border: 1px solid rgba(220, 220, 220, 1);
     border-radius: 10px;
+    float: right;
 }
 .search-wrap .search-input{
     position: relative;

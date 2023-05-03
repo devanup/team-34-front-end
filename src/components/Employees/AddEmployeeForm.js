@@ -26,7 +26,7 @@ export const AddEmployee = ({ handleCloseFormBtn }) => {
 	return (
 		<>
 			<div className='form-overlay' onClick={handleCancelBtn}></div>
-			<div className='form-wrap'>
+			<div className='form-wrap add-employee-form-wrap'>
 				{/* <div className='close-menu-icon'>
 					<FontAwesomeIcon icon={faXmark} onClick={handleCancelBtn} />
 				</div> */}

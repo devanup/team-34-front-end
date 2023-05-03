@@ -13,14 +13,14 @@
 .form-wrap{
     /* height: 600px; */
     /* display: none; */
-    width: 600px !important;
+    width: 900px !important;
     padding: 70px !important;
     border-radius: 20px;
     border: 1px solid grey;
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translateX(-50%) translateY(-50%);
     background-color: rgb(255, 255, 255);
     z-index: 2001;
 }
@@ -72,3 +72,17 @@ select{color: grey;cursor: pointer;}
     border-radius: 50%;
     background-color: rgba(220, 220, 220, .5);
 }
+
+@media screen and (max-width: 1800px) {
+    .add-employee-form-wrap{
+        /* height: 600px; */
+        /* display: none; */
+        width: 700px !important;
+        position: absolute;
+        left: 50%;
+        top: 45%;
+        transform: translate(-50%,-50%);
+        background-color: rgb(255, 255, 255);
+        /* background-color:mistyrose; */
+    }
+  }  
