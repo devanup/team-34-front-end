@@ -5,6 +5,7 @@
     margin-bottom: 15px;
     border-radius: 15px;
     padding: 15px;
+    display: none;
 }
 .name-suggestion .name-list{ 
     list-style: none;
@@ -34,6 +35,7 @@
     background-color: rgba(220, 220, 220, .7);
     border-radius: 15px;
     cursor: pointer;
+    /* display: none; */
 }
 .assignee-list:hover{
     background-color: rgba(232, 229, 221, .75);
@@ -52,3 +54,17 @@
     background-color: rgba(0, 0, 0, .5);
     -webkit-box-shadow: 0 0 0px rgba(255, 255, 255, .5);
   }
+
+  @media screen and (max-width: 1800px) {
+    .create-task-form-wrap{
+        /* height: 600px; */
+        /* display: none; */
+        width: 700px !important;
+        position: relative;
+        left: 50%;
+        top: 400px !important;
+        transform: translateX(-50%) translateY(-50%);
+        background-color: rgb(255, 255, 255);
+        /* background-color:palegoldenrod !important; */
+    }
+  }  

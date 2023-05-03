@@ -15,7 +15,7 @@ body {
 .body-wrap {
   position: relative;
   /* max-width: 1500px; */
-  height: 100vh;
+  /* height: 100vh; */
   margin: auto;
   padding-left: 150px;
   padding-right: 40px;

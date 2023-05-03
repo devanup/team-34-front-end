@@ -26,7 +26,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 	return (
 		<>
 			<div className='form-overlay' onClick={handleCancelBtn}></div>
-			<div className='form-wrap'>
+			<div className='form-wrap create-task-form-wrap'>
 				{/* <div className='close-menu-icon'>
 					<FontAwesomeIcon icon={faXmark} onClick={handleCancelBtn} />
 				</div> */}
@@ -45,7 +45,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 							/>
 						</Col>
 
-						<Col sm={12}>
+						<Col sm={6}>
 							<div className='form-group'>
 								<label className='mt-4 mb-1'>
 									<h5>Priority</h5>
@@ -61,7 +61,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 								</select>
 							</div>
 						</Col>
-						<Col sm={12}>
+						<Col sm={6}>
 							<div className='form-group'>
 								<label className='mt-4 mb-1'>
 									<h5>Completion Status</h5>
@@ -90,7 +90,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 									<li className=' mt-1 mb-1 name-list'>Andrew Chen</li>
 								</ul>
 							</div>
-							<div className='assignees text-center'>
+							<div className='assignees text-center mt-4 mb-2'>
 								<ul className='m-0 p-0'>
 									<li className='assignee-list'>
 										Jason Smith{' '}
@@ -130,7 +130,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 								</ul>
 							</div>
 						</Col>
-						<Col className='mt-5' style={{ textAlign: 'right' }}>
+						<Col style={{ textAlign: 'right' }}>
 							<Button
 								variant='light'
 								style={{
