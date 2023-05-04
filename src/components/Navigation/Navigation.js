@@ -25,25 +25,25 @@ function Navigation() {
 			</Link>
 			<Link
 				className={`link ${
-					location.pathname === '/tasks' ? 'active-link' : ''
+					location.pathname.startsWith('/tasks') ? 'active-link' : ''
 				}`}
 				to='/tasks'
 			>
 				<FontAwesomeIcon icon={faClipboardList} className='nav-icon' />
 				<span className='tool-tip'>Tasks</span>
-				{location.pathname === '/tasks' && (
+				{location.pathname.startsWith('/tasks') && (
 					<span className='active-indicator'></span>
 				)}
 			</Link>
 			<Link
 				className={`link ${
-					location.pathname === '/employees' ? 'active-link' : ''
+					location.pathname.startsWith('/employee') ? 'active-link' : ''
 				}`}
 				to='/employees'
 			>
 				<FontAwesomeIcon icon={faPeopleGroup} className='nav-icon' />
 				<span className='tool-tip'>Employees</span>
-				{location.pathname === '/employees' && (
+				{location.pathname.startsWith('/employee') && (
 					<span className='active-indicator'></span>
 				)}
 			</Link>
