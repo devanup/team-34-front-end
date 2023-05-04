@@ -15,6 +15,9 @@ export const TaskPage = () => {
 	return (
 		<div>
 			<Card className='card-wrap p-5'>
+				<div className='empty-state'>
+					<h3>Task not found</h3>
+				</div>
 				<Container fluid className='p-0'>
 					<Row>
 						<Col lg={9}>

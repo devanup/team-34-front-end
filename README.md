@@ -11,7 +11,7 @@
 - [x] ~~Added form to add new employees and new tasks~~
 - [x] ~~can navigate to all tasks view~~
 - [x] ~~can navigate to any single task’s view~~
-- [ ] can navigate to any single employee’s view
+- [x] ~~can navigate to any single employee’s view~~
 - [ ] load data dynamically
 - [ ] make the app responsive in smaller devices
 - [ ] clean up the code

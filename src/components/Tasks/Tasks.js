@@ -58,6 +58,10 @@ function Tasks({ showCreateNewTaskButton }) {
 		navigate(`/tasks/${task.id}`, { state: { task } });
 	};
 
+	const handleAssigneeClick = (task) => {
+		// Route to the corresponding Employee page
+	};
+
 	return (
 		<Container fluid className='p-0'>
 			<Row className='mb-5'>
