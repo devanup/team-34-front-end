@@ -7,15 +7,11 @@ import {
 	faCheckCircle,
 	faEye,
 } from '@fortawesome/free-regular-svg-icons';
-import {
-	faPlus,
-	faCirclePlus,
-	faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { CreateTaskForm } from './CreateTaskForm';
-import { TaskPage } from '../../pages/TaskPage';
+// import { TaskPage } from '../../pages/TaskPage';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function Tasks({ showCreateNewTaskButton }) {
@@ -60,6 +56,10 @@ function Tasks({ showCreateNewTaskButton }) {
 		console.log(task);
 		// Route to the corresponding Task page
 		navigate(`/tasks/${task.id}`, { state: { task } });
+	};
+
+	const handleAssigneeClick = (task) => {
+		// Route to the corresponding Employee page
 	};
 
 	return (
@@ -160,14 +160,14 @@ function Tasks({ showCreateNewTaskButton }) {
 											<td>
 												<Button
 													variant='outline-dark'
-													className='btn'
+													className='action-btn'
 													onClick={() => handleViewBtn(task)}
 												>
 													<FontAwesomeIcon icon={faEye} />
 												</Button>
 												<Button
 													variant='outline-danger'
-													className='btn'
+													className='action-btn'
 													onClick=''
 												>
 													<FontAwesomeIcon icon={faXmark} />

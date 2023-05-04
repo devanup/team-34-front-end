@@ -2,13 +2,16 @@ import '../Tasks/tasks.css';
 import { Row, Col, Card, Button, Table, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { AddEmployee } from './AddEmployeeForm';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function Employees({ showAddEmployeeButton }) {
 	const [employees, setEmployees] = useState([
 		{
+			id: 1,
 			firstName: 'Jason',
 			lastName: 'Smith',
 			department: 'Marketing',
@@ -16,6 +19,7 @@ function Employees({ showAddEmployeeButton }) {
 			taskCompleted: '2',
 		},
 		{
+			id: 2,
 			firstName: 'Kayla',
 			lastName: 'Davis',
 			department: 'Design',
@@ -23,6 +27,7 @@ function Employees({ showAddEmployeeButton }) {
 			taskCompleted: '4',
 		},
 		{
+			id: 3,
 			firstName: 'Andrew',
 			lastName: 'Chen',
 			department: 'Engineering',
@@ -32,6 +37,7 @@ function Employees({ showAddEmployeeButton }) {
 	]);
 
 	const [displayForm, setDisplayForm] = useState(false);
+	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
 	const handleShowFormBtn = () => {
 		setDisplayForm(true);
@@ -40,6 +46,16 @@ function Employees({ showAddEmployeeButton }) {
 	const handleCloseFormBtn = () => {
 		setDisplayForm(false);
 	};
+
+	const navigate = useNavigate();
+
+	const handleViewBtn = (employee) => {
+		setSelectedEmployee(employee);
+		console.log(employee);
+		// Route to the corresponding Task page
+		navigate(`/employees/${employee.id}`, { state: { employee } });
+	};
+
 	return (
 		<Container fluid className='p-0'>
 			<Row className='mb-5'>
@@ -104,8 +120,19 @@ function Employees({ showAddEmployeeButton }) {
 										<td>{employee.taskCompleted}</td>
 										{showAddEmployeeButton && (
 											<td>
-												<Button variant='outline-dark' className='btn'>
-													View
+												<Button
+													variant='outline-dark'
+													className='action-btn'
+													onClick={() => handleViewBtn(employee)}
+												>
+													<FontAwesomeIcon icon={faEye} />
+												</Button>
+												<Button
+													variant='outline-danger'
+													className='action-btn'
+													// onClick=''
+												>
+													<FontAwesomeIcon icon={faXmark} />
 												</Button>
 											</td>
 										)}

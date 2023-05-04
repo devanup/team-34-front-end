@@ -4,6 +4,7 @@ import { Dashboard } from './pages/Dashboard';
 import { TasksPage } from './pages/TasksPage';
 import { EmployeesPage } from './pages/EmployeesPage';
 import { TaskPage } from './pages/TaskPage';
+import { EmployeePage } from './pages/EmployeePage';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
 						<Route path='/tasks' element={<TasksPage />} />
 						<Route path='/tasks/:taskId' element={<TaskPage />} />
 						<Route path='/employees' element={<EmployeesPage />} />
+						<Route path='/employees/:employeeId' element={<EmployeePage />} />
 					</Routes>
 				</HashRouter>
 			</div>
