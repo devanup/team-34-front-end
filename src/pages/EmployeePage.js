@@ -11,9 +11,9 @@ export const EmployeePage = () => {
 	return (
 		<div>
 			<Card className='card-wrap p-5'>
-				<div className='empty-state'>
+				{/* <div className='empty-state'>
 					<h3>Employee not found</h3>
-				</div>
+				</div> */}
 				<Container fluid className='p-0'>
 					<Row>
 						<Col lg={9}>
