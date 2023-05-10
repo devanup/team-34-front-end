@@ -83,7 +83,7 @@ export const TasksPage = () => {
 					</Container>
 				</Card.Body>
 			</Card>
-			<Tasks showCreateNewTaskButton={true} />
+			<Tasks showActions={true} showCreateNewTaskButton={true} />
 		</div>
 	);
 };

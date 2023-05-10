@@ -14,7 +14,7 @@ import { CreateTaskForm } from './CreateTaskForm';
 // import { TaskPage } from '../../pages/TaskPage';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
-function Tasks({ showCreateNewTaskButton }) {
+function Tasks({ showActions, showCreateNewTaskButton, showViewTaskButton }) {
 	const tasks = [
 		{
 			id: 1,
@@ -84,7 +84,7 @@ function Tasks({ showCreateNewTaskButton }) {
 										</Button>
 									</Link>
 								)}
-								{!showCreateNewTaskButton && (
+								{!showCreateNewTaskButton && showViewTaskButton && (
 									<Link to='/tasks'>
 										<Button variant='dark' className='btn'>
 											View All Tasks
@@ -102,7 +102,7 @@ function Tasks({ showCreateNewTaskButton }) {
 								<th>Priority</th>
 								<th>Status</th>
 								<th>Assignee</th>
-								{showCreateNewTaskButton && <th>Actions</th>}
+								{showActions && <th>Actions</th>}
 							</tr>
 						</thead>
 						<tbody>
@@ -156,7 +156,7 @@ function Tasks({ showCreateNewTaskButton }) {
 											</span>
 										</td>
 										<td>{task.assignee}</td>
-										{showCreateNewTaskButton && (
+										{showActions && (
 											<td>
 												<Button
 													variant='outline-dark'

@@ -6,10 +6,12 @@ import {
 	faCircle,
 	faClock,
 	faCheckCircle,
+	faTrashCan,
 } from '@fortawesome/free-regular-svg-icons';
 import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
+import { Helmet } from 'react-helmet';
 
 const priorityList = [
 	{ value: 'Low', label: 'Low' },
@@ -78,6 +80,9 @@ export const TaskPage = () => {
 
 	return (
 		<div>
+			<Helmet>
+				<title>Task Detail</title>
+			</Helmet>
 			<Card className='card-wrap p-5'>
 				{/* <div className='empty-state'>
 					<h3>Task not found</h3>
@@ -90,34 +95,15 @@ export const TaskPage = () => {
 						<Col md={3} className='mb-3'>
 							<div className='edit-btn'>
 								{!editEnable && (
-									<Button variant='outline-secondary' onClick={handleEdit}>
+									<Button variant='outline-dark' onClick={handleEdit}>
 										<FontAwesomeIcon icon={faPen} />
-									</Button>
-								)}
-								{editEnable && (
-									<Button
-										className='edit-enabled-btn'
-										variant='secondary'
-										onClick={handleSave}
-									>
-										{/* <FontAwesomeIcon icon={faFloppyDisk} /> */}
-										Save
-									</Button>
-								)}
-								{editEnable && (
-									<Button
-										className='edit-enabled-btn'
-										variant='light'
-										onClick={handleCancel}
-									>
-										Cancel
 									</Button>
 								)}
 							</div>
 						</Col>
 					</Row>
 					<Row>
-						<Col md={9}>
+						<Col md={12}>
 							{editEnable && (
 								<input
 									className='mt-0 mb-3 input edit-input'
@@ -216,6 +202,40 @@ export const TaskPage = () => {
 								)}
 							</div>
 						</Col>
+						{editEnable && (
+							<Col md={12} className='mt-4 mb-4'>
+								<Button variant='secondary'>
+									<FontAwesomeIcon icon={faTrashCan} className='remove-btn' />
+									Remove
+								</Button>
+								<div className='edit-btn'>
+									{!editEnable && (
+										<Button variant='outline-dark' onClick={handleEdit}>
+											<FontAwesomeIcon icon={faPen} />
+										</Button>
+									)}
+									{editEnable && (
+										<Button
+											className='edit-enabled-btn'
+											variant='dark'
+											onClick={handleSave}
+										>
+											{/* <FontAwesomeIcon icon={faFloppyDisk} /> */}
+											Save
+										</Button>
+									)}
+									{editEnable && (
+										<Button
+											className='edit-enabled-btn'
+											variant='outline-secondary'
+											onClick={handleCancel}
+										>
+											Cancel
+										</Button>
+									)}
+								</div>
+							</Col>
+						)}
 					</Row>
 				</Container>
 			</Card>
