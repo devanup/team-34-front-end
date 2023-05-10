@@ -10,7 +10,11 @@ export const Dashboard = () => {
 				<title>Dashboard</title>
 			</Helmet>
 			<Overview />
-			<Tasks />
+			<Tasks
+				showActions={false}
+				showCreateNewTaskButton={false}
+				showViewTaskButton={true}
+			/>
 			<Employees />
 		</>
 	);

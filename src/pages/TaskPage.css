@@ -7,11 +7,15 @@ input{
     height: auto;
     overflow: visible;
     font-size: 1.5rem;
+    border-radius: 10px;
 }
 .edit-input{
     padding: 10px !important;
 }
-
+.department-input{
+    padding: 10px;
+    border-radius: 10px;
+}
 .assignee-select{
     width: auto !important;
 }
@@ -30,6 +34,7 @@ input{
 
 .card-wrap{
     border-radius: 15px !important;
+    background-color: rgba(232, 229, 221, .3) !important;
 }
 
 .edit-btn{
@@ -37,11 +42,13 @@ input{
     top: 50%;
     transform: translateY(-50%); */
     float: right;
+    /* background-color: #fff !important; */
 }
 .edit-enabled-btn{
     margin-left: 5px;
     margin-right: 5px;
 }
+.remove-btn{margin-right: 10px;}
 .property-title{
     color: grey;
 }
