@@ -26,7 +26,7 @@ export const TasksPage = () => {
 									Overview
 								</h2>
 							</Col>
-							<Col md>
+							{/* <Col md>
 								<div className='search-wrap'>
 									<div className='search-icon-wrap'>
 										<FontAwesomeIcon
@@ -40,7 +40,7 @@ export const TasksPage = () => {
 										className='search-input'
 									/>
 								</div>
-							</Col>
+							</Col> */}
 						</Row>
 						<Row className='text-center'>
 							<Col md={3}>

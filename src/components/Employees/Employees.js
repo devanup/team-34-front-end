@@ -95,7 +95,7 @@ function Employees({ showAddEmployeeButton }) {
 								<th>Department</th>
 								<th>Tasks Assigned</th>
 								<th>Tasks Completed</th>
-								{showAddEmployeeButton && <th>Action</th>}
+								{showAddEmployeeButton && <th>Actions</th>}
 							</tr>
 						</thead>
 						<tbody>

@@ -3,11 +3,18 @@ import { Card, Button, Col, Container, Row } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 export const EmployeePage = () => {
 	const { state } = useLocation();
 	const employee = state?.employee;
 	const employeeName = employee.firstName + ' ' + employee.lastName;
+	const [editEnable, setEditEnable] = useState(false);
+
+	const handleEdit = () => {
+		setEditEnable(true);
+		if (editEnable) setEditEnable(!true);
+	};
 	return (
 		<div>
 			<Card className='card-wrap p-5'>
@@ -21,26 +28,44 @@ export const EmployeePage = () => {
 						</Col>
 						<Col md={3} className='mb-3'>
 							<div className='edit-btn'>
-								<Button variant='outline-secondary'>
-									<FontAwesomeIcon icon={faPen} />
-								</Button>
-								{/* <Button variant='outline-secondary'>
-									<FontAwesomeIcon icon={faFloppyDisk} />
-								</Button> */}
+								{!editEnable && (
+									<Button variant='outline-secondary' onClick={handleEdit}>
+										<FontAwesomeIcon icon={faPen} />
+									</Button>
+								)}
+								{editEnable && (
+									<Button variant='secondary' onClick={handleEdit}>
+										{/* <FontAwesomeIcon icon={faFloppyDisk} /> */}
+										Save
+									</Button>
+								)}
+								{editEnable && (
+									<Button
+										className='edit-enabled-btn'
+										variant='light'
+										onClick={handleEdit}
+									>
+										Cancel
+									</Button>
+								)}
 							</div>
 						</Col>
 					</Row>
 					<Row>
 						<Col md={9}>
-							<input
-								className='mt-0 mb-3 p-0 input'
-								type='text'
-								value={employeeName}
-								autoFocus
-							/>
-							<div className='mb-3 name-description'>
-								<h4 className='m-0 p-0'>{employeeName}</h4>
-							</div>
+							{editEnable && (
+								<input
+									className='mt-0 mb-3 input edit-input'
+									type='text'
+									value={employeeName}
+									autoFocus
+								/>
+							)}
+							{!editEnable && (
+								<div className='mb-3 name-description'>
+									<h4 className='m-0 p-0'>{employeeName}</h4>
+								</div>
+							)}
 						</Col>
 					</Row>
 
@@ -54,7 +79,12 @@ export const EmployeePage = () => {
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties'>
-								<span className=''>{employee.department}</span>
+								{!editEnable && <span className=''>{employee.department}</span>}
+								{editEnable && (
+									<span>
+										<input type='text' value={employee.department} />
+									</span>
+								)}
 							</div>
 						</Col>
 
@@ -66,6 +96,11 @@ export const EmployeePage = () => {
 						<Col md={9} className='mb-4'>
 							<div className='properties'>
 								<span className=''>{employee.taskAssigned}</span>
+								{/* {editEnable && (
+									<span>
+										<input type='text' value={employee.taskAssigned} />
+									</span>
+								)} */}
 							</div>
 						</Col>
 
@@ -77,6 +112,11 @@ export const EmployeePage = () => {
 						<Col md={9} className='mb-4'>
 							<div className='properties'>
 								<span className=''>{employee.taskCompleted}</span>
+								{/* {editEnable && (
+									<span>
+										<input type='text' value={employee.taskCompleted} />
+									</span>
+								)} */}
 							</div>
 						</Col>
 					</Row>
