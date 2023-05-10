@@ -8,26 +8,13 @@ import {
 	faCheckCircle,
 } from '@fortawesome/free-regular-svg-icons';
 import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
-import Form from 'react-bootstrap/Form';
+import { useState, useEffect } from 'react';
+import Select from 'react-select';
 
 const priorityList = [
-	{ value: 'Low', label: 'Low' },
-	{ value: 'Medium', label: 'Medium' },
-	{ value: 'High', label: 'High' },
-];
-const statusList = [
-	{ value: 'Not-Started', label: 'Not-Started' },
-	{ value: 'In-Progress', label: 'In-Progress' },
-	{ value: 'Completed', label: 'Completed' },
-];
-const assigneeList = [
-	{ value: 'Mark Davidson', label: 'Mark Davidson' },
-	{ value: 'Laura Huff', label: 'Laura Huff' },
-	{ value: 'Christian Wu', label: 'Christian Wu' },
-	{ value: 'Jason Smith', label: 'Jason Smith' },
-	{ value: 'Kayla Davis', label: 'Kayla Davis' },
-	{ value: 'Andrew Chen', label: 'Andrew Chen' },
+	{ value: 1, label: 'Low' },
+	{ value: 2, label: 'Medium' },
+	{ value: 3, label: 'High' },
 ];
 
 export const TaskPage = () => {
@@ -35,46 +22,60 @@ export const TaskPage = () => {
 	const task = state?.task;
 
 	const [editEnable, setEditEnable] = useState(false);
+	const [selectedTask, setSelectedTask] = useState({
+		id: task.id,
+		name: task.name,
+		description: task.description,
+		assignee: task.assignee,
+		priority: task.priority,
+	});
+	console.log('selectedTask.priority: ', selectedTask.priority);
+	// Check the value of task.priority and set selectedTask.priority accordingly
+	// useEffect(() => {
+	// 	setSelectedTask((prevSelectedTask) => ({
+	// 		...prevSelectedTask,
+	// 		priority: task.priority,
+	// 	}));
+	// }, [task.priority]);
+
 	const handleEdit = () => {
 		setEditEnable(true);
 	};
-	const [selectedTask, setSelectedTask] = useState(task);
 
 	const handleCancel = () => {
 		setEditEnable(false);
 		setSelectedTask(task);
 	};
+
 	const handleSave = () => {
 		setEditEnable(false);
 		task.description = selectedTask.description;
 		task.priority = selectedTask.priority;
-		task.status = selectedTask.status;
-		task.assignee = selectedTask.assignee;
 	};
+	/*
+	const handleEdit = () => {
+		setEditEnable(true);
+		// console.log('task.priority: ', task.priority);
+		if (editEnable) setEditEnable(!true);
+	};
+	*/
+
+	// const taskPriority = task.priority;
+	// const [selectedPriority, setSelectedPriority] = useState(taskPriority);
+
 	const handleDescriptionChange = (e) => {
 		const newTask = { ...selectedTask, description: e.target.value };
 		setSelectedTask(newTask);
 	};
+
 	const handlePriorityChange = (e) => {
 		const newTask = { ...selectedTask, priority: e.target.value };
 		setSelectedTask(newTask);
 	};
-	const handleStatusChange = (e) => {
-		const newTask = { ...selectedTask, status: e.target.value };
-		setSelectedTask(newTask);
-		// console.log('task.status: ', task.status);
-		// console.log('newTask.status: ', newTask.status);
-		// console.log('task: ', task);
-		// console.log('newTask: ', newTask);
-	};
-	const handleAssigneeChange = (e) => {
-		const newTask = { ...selectedTask, assignee: e.target.value };
-		setSelectedTask(newTask);
-		// console.log('task.status: ', task.status);
-		// console.log('newTask.status: ', newTask.status);
-		// console.log('task: ', task);
-		// console.log('newTask: ', newTask);
-	};
+
+	const priorities = ['Low', 'Medium', 'High'];
+
+	const statuses = ['Not-Started', 'In-Progress', 'Completed'];
 
 	return (
 		<div>
@@ -145,48 +146,84 @@ export const TaskPage = () => {
 							<div className='properties property-title'>Priority</div>
 						</Col>
 						<Col md={9} className='mb-4'>
-							{!editEnable && task.priority}
-							{editEnable && (
-								<Form.Select
-									aria-label='Default select example'
-									className='assignee-select'
-									style={{ textTransform: 'capitalize' }}
+							<div className='properties'>
+								{/* <span>
+										{task.priority.charAt(0).toUpperCase() +
+											task.priority.slice(1)}
+									</span> */}
+								{/* <select
+									id='assignee'
+									name='assignee'
+									className='form-input assignee-select'
 									onChange={handlePriorityChange}
 								>
-									<option selected disabled>
-										{task?.priority}
-									</option>
-									{priorityList.map((_priority) => (
-										<option key={_priority.value} value={_priority.value}>
-											{_priority.label}
+									{priorities.map((_priority) => (
+										<option key={_priority} value={_priority}>
+											{_priority}
 										</option>
 									))}
-								</Form.Select>
-							)}
+								</select> */}
+								<Select
+									// value={''}
+									// onChange={handlePriorityChange}
+									options={priorityList}
+									placeholder='Select priority'
+								/>
+							</div>
+
+							{/* {editEnable && (
+								<select
+									id='assignee'
+									name='assignee'
+									className='form-input assignee-select'
+									value={selectedTask.priority}
+									onChange={handlePriorityChange}
+									defaultValue={task.priority}
+								>
+									{priorities.map((_priority) => (
+										<option key={_priority} value={_priority}>
+											{_priority}
+										</option>
+									))}
+								</select>
+							)} */}
 						</Col>
 
 						<Col md={3} className='mb-4'>
 							<div className='properties property-title'>Status</div>
 						</Col>
-						<Col md={9} className={`mb-4`}>
+						<Col md={9} className={`mb-4 td-${task.status}`}>
 							<div className='properties'>
-								{!editEnable && task.status}
+								{!editEnable && (
+									<span className={`status-label status-label-${task.status}`}>
+										{task.status === 'not-started' && (
+											<FontAwesomeIcon
+												icon={faCircle}
+												className='status-icon'
+											/>
+										)}
+										{task.status === 'in-progress' && (
+											<FontAwesomeIcon icon={faClock} className='status-icon' />
+										)}
+										{task.status === 'completed' && (
+											<FontAwesomeIcon
+												icon={faCheckCircle}
+												className='status-icon'
+											/>
+										)}
+										{task.status.charAt(0).toUpperCase() + task.status.slice(1)}
+									</span>
+								)}
 								{editEnable && (
-									<Form.Select
-										aria-label='Default select example'
-										className='assignee-select'
-										style={{ textTransform: 'capitalize' }}
-										onChange={handleStatusChange}
+									<select
+										id='assignee'
+										name='assignee'
+										className='form-input assignee-select'
 									>
-										<option selected disabled>
-											{task?.status}
-										</option>
-										{statusList.map((_status) => (
-											<option key={_status.value} value={_status.value}>
-												{_status.label}
-											</option>
+										{statuses.map((_status) => (
+											<option>{_status}</option>
 										))}
-									</Form.Select>
+									</select>
 								)}
 							</div>
 						</Col>
@@ -198,21 +235,15 @@ export const TaskPage = () => {
 							<div className='properties assignee-property'>
 								{!editEnable && task.assignee}
 								{editEnable && (
-									<Form.Select
-										aria-label='Default select example'
-										className='assignee-select'
-										style={{ textTransform: 'capitalize' }}
-										onChange={handleAssigneeChange}
+									<select
+										id='assignee'
+										name='assignee'
+										className='form-input assignee-select'
 									>
-										<option selected disabled>
-											{task?.assignee}
-										</option>
-										{assigneeList.map((_assignee) => (
-											<option key={_assignee.value} value={_assignee.value}>
-												{_assignee.label}
-											</option>
-										))}
-									</Form.Select>
+										<option value={task.assignee}>{task.assignee}</option>
+										<option value={task.assignee}>{task.assignee}</option>
+										<option value={task.assignee}>{task.assignee}</option>
+									</select>
 								)}
 							</div>
 						</Col>

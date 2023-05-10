@@ -102,7 +102,7 @@ function Tasks({ showCreateNewTaskButton }) {
 								<th>Priority</th>
 								<th>Status</th>
 								<th>Assignee</th>
-								{showCreateNewTaskButton && <th>Action</th>}
+								{showCreateNewTaskButton && <th>Actions</th>}
 							</tr>
 						</thead>
 						<tbody>

@@ -1,19 +1,28 @@
+input{
+    border: 1px solid gainsboro;
+    outline: none !important;
+}
 .input{
     width: 100%;
     height: auto;
     overflow: visible;
-    border: 1px solid gainsboro;
-    outline: none !important;
     font-size: 1.5rem;
-    display: none;
-    /* padding: 10px; */
 }
+.edit-input{
+    padding: 10px !important;
+}
+
+.assignee-select{
+    width: auto !important;
+}
+
 .name-description{
     font-size: 1.5rem;
     border: 1px solid transparent;
     /* padding: 10px; */
     /* display: none; */
 }
+
 .disabled{
     color: inherit;
     background-color: transparent;
@@ -29,7 +38,10 @@
     transform: translateY(-50%); */
     float: right;
 }
-
+.edit-enabled-btn{
+    margin-left: 5px;
+    margin-right: 5px;
+}
 .property-title{
     color: grey;
 }
