@@ -20,7 +20,7 @@ const departmentList = [
 export const EmployeePage = () => {
 	const { state } = useLocation();
 	const employee = state?.employee;
-	const employeeName = employee.firstName + ' ' + employee.lastName;
+	const employeeName = employee.Fname + ' ' + employee.Lname;
 	const [editEnable, setEditEnable] = useState(false);
 
 	const handleEdit = () => {
@@ -34,16 +34,16 @@ export const EmployeePage = () => {
 	};
 	const handleSave = () => {
 		setEditEnable(false);
-		employee.firstName = selectedEmployee.firstName;
-		employee.lastName = selectedEmployee.lastName;
+		employee.Fname = selectedEmployee.Fname;
+		employee.Lname = selectedEmployee.Lname;
 		employee.department = selectedEmployee.department;
 	};
 	const handleFirstNameChange = (e) => {
-		const newEmployee = { ...selectedEmployee, firstName: e.target.value };
+		const newEmployee = { ...selectedEmployee, Fname: e.target.value };
 		setSelectedEmployee(newEmployee);
 	};
 	const handleLastNameChange = (e) => {
-		const newEmployee = { ...selectedEmployee, lastName: e.target.value };
+		const newEmployee = { ...selectedEmployee, Lname: e.target.value };
 		setSelectedEmployee(newEmployee);
 	};
 	const handleDepartmentChange = (e) => {
@@ -53,7 +53,16 @@ export const EmployeePage = () => {
 	return (
 		<div>
 			<Helmet>
-				<title>{employeeName ? employeeName : 'Employee Detail'}</title>
+				<title>
+					{employeeName
+						? employeeName
+								.split(' ')
+								.map(
+									(word) => word.charAt(0).toLocaleUpperCase() + word.slice(1),
+								)
+								.join(' ')
+						: 'Employee Detail'}
+				</title>
 			</Helmet>
 			<Card className='card-wrap p-5'>
 				{/* <div className='empty-state'>
@@ -83,7 +92,7 @@ export const EmployeePage = () => {
 								<input
 									type='text'
 									id='firstName'
-									value={selectedEmployee.firstName}
+									value={selectedEmployee.Fname}
 									className='form-input firstName'
 									onChange={handleFirstNameChange}
 								/>
@@ -95,7 +104,7 @@ export const EmployeePage = () => {
 								<input
 									type='text'
 									id='lastName'
-									value={selectedEmployee.lastName}
+									value={selectedEmployee.Lname}
 									className='form-input lastName'
 									onChange={handleLastNameChange}
 								/>
@@ -106,7 +115,15 @@ export const EmployeePage = () => {
 						<Col>
 							{!editEnable && (
 								<div className='mb-3 name-description'>
-									<h4 className='m-0 p-0'>{employeeName}</h4>
+									<h4 className='m-0 p-0'>
+										{employeeName
+											.split(' ')
+											.map(
+												(word) =>
+													word.charAt(0).toLocaleUpperCase() + word.slice(1),
+											)
+											.join(' ')}
+									</h4>
 								</div>
 							)}
 						</Col>

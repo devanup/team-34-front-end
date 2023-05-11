@@ -8,8 +8,45 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Employees from '../components/Employees/Employees';
 import { Helmet } from 'react-helmet';
+import {
+	fetchEmployees,
+	fetchEmployeeById,
+} from '../components/Employees/fetchEmployees';
+// import {  } from '../components/Tasks/fetchTasks';
 import { AddEmployee } from '../components/Employees/AddEmployeeForm';
+import { useEffect, useState } from 'react';
+
 export const EmployeesPage = () => {
+	const [employees, setEmployees] = useState([]);
+	const [employeeIds, setEmployeeIds] = useState([]);
+	const [tasks, setTasks] = useState({});
+	const nonEmptyTasks = Object.values(tasks).filter(
+		(taskArr) => taskArr.length > 0,
+	);
+	const countNonEmptyTasks = nonEmptyTasks.length;
+
+	useEffect(() => {
+		// Fetch employees when the component mounts
+		fetchEmployeeData();
+	}, []);
+
+	async function fetchEmployeeData() {
+		const data = await fetchEmployees();
+		setEmployees(data);
+
+		const ids = employees.map((employee) => employee.id);
+		setEmployeeIds(ids);
+
+		const tasksByEmployee = {};
+		for (const employeeId of ids) {
+			const employee = await fetchEmployeeById(employeeId);
+			tasksByEmployee[employeeId] = employee.Tasks;
+		}
+		setTasks(tasksByEmployee);
+	}
+
+	// console.log('employeeIds', employeeIds);
+	// console.log('tasksByEmployees: ', tasks);
 	return (
 		<div>
 			<Helmet>
@@ -48,7 +85,9 @@ export const EmployeesPage = () => {
 										<FontAwesomeIcon icon={faClipboardList} />
 									</div>
 									<h5 className='sans-serif'>Employees</h5>
-									<h6 className='mb-2 card-count-display'>3</h6>
+									<h6 className='mb-2 card-count-display'>
+										{employees.length}
+									</h6>
 								</Card>
 							</Col>
 							<Col md>
@@ -57,7 +96,9 @@ export const EmployeesPage = () => {
 										<FontAwesomeIcon icon={faPeopleGroup} />
 									</div>
 									<h5 className='sans-serif'>Tasks Assigned</h5>
-									<h6 className='mb-2 card-count-display'>3</h6>
+									<h6 className='mb-2 card-count-display'>
+										{countNonEmptyTasks}
+									</h6>
 								</Card>
 							</Col>
 							<Col md>
@@ -66,7 +107,9 @@ export const EmployeesPage = () => {
 										<FontAwesomeIcon icon={faCheckCircle} />
 									</div>
 									<h5 className='sans-serif'>Tasks Completed</h5>
-									<h6 className='mb-2 card-count-display'>9</h6>
+									<h6 className='mb-2 card-count-display'>
+										{countNonEmptyTasks}
+									</h6>
 								</Card>
 							</Col>
 						</Row>
