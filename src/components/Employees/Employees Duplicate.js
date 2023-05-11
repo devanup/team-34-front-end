@@ -4,24 +4,37 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AddEmployee } from './AddEmployeeForm';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { fetchEmployees } from './fetchEmployees';
-import { deleteEmployee } from './deleteEmployee';
 
 function Employees({ showAddEmployeeButton }) {
-	const [employees, setEmployees] = useState([]);
-
-	async function fetchEmployeeData() {
-		const data = await fetchEmployees();
-		setEmployees(data);
-	}
-
-	useEffect(() => {
-		// Fetch employees when the component mounts
-		fetchEmployeeData();
-	}, [employees]);
+	const [employees, setEmployees] = useState([
+		{
+			id: 1,
+			firstName: 'Jason',
+			lastName: 'Smith',
+			department: 'Marketing',
+			taskAssigned: 'None',
+			taskCompleted: '2',
+		},
+		{
+			id: 2,
+			firstName: 'Kayla',
+			lastName: 'Davis',
+			department: 'Design',
+			taskAssigned: '1',
+			taskCompleted: '4',
+		},
+		{
+			id: 3,
+			firstName: 'Andrew',
+			lastName: 'Chen',
+			department: 'Engineering',
+			taskAssigned: '2',
+			taskCompleted: '3',
+		},
+	]);
 
 	const [displayForm, setDisplayForm] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -38,28 +51,10 @@ function Employees({ showAddEmployeeButton }) {
 
 	const handleViewBtn = (employee) => {
 		setSelectedEmployee(employee);
+		console.log(employee);
 		// Route to the corresponding Task page
 		navigate(`/employees/${employee.id}`, { state: { employee } });
 	};
-
-	async function handleDeleteBtn(Fname, id) {
-		try {
-			if (
-				window.confirm(
-					`Are you sure you want to delete ${Fname.split(' ')
-						.map((word) => word.charAt(0).toLocaleUpperCase() + word.slice(1))
-						.join(' ')}?`,
-				)
-			) {
-				await deleteEmployee(id);
-				setEmployees((prevEmployees) =>
-					prevEmployees.filter((employee) => employee.id !== id),
-				);
-			}
-		} catch (error) {
-			console.error('Error deleting employee:', error);
-		}
-	}
 
 	return (
 		<Container fluid className='p-0'>
@@ -93,7 +88,7 @@ function Employees({ showAddEmployeeButton }) {
 							</Col>
 						</Row>
 					</Card>
-					<Table borderless responsive style={{ textTransform: 'capitalize' }}>
+					<Table borderless responsive>
 						<thead className='sans-serif'>
 							<tr>
 								<th>Name</th>
@@ -117,7 +112,7 @@ function Employees({ showAddEmployeeButton }) {
 							) : (
 								employees.map((employee, index) => (
 									<tr key={index}>
-										<td>{`${employee.Fname + ' ' + employee.Lname}`}</td>
+										<td>{`${employee.firstName} ${employee.lastName}`}</td>
 										<td className='department'>{employee.department}</td>
 										<td className='task-assigned-count'>
 											{employee.taskAssigned}
@@ -135,9 +130,7 @@ function Employees({ showAddEmployeeButton }) {
 												<Button
 													variant='outline-danger'
 													className='action-btn'
-													onClick={() =>
-														handleDeleteBtn(employee.Fname, employee.id)
-													}
+													// onClick=''
 												>
 													<FontAwesomeIcon icon={faXmark} />
 												</Button>
