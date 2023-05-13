@@ -9,9 +9,10 @@ import {
 	faTrashCan,
 } from '@fortawesome/free-regular-svg-icons';
 import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
+import { fetchTasksById } from '../components/Tasks/fetchTasksByID';
 
 const priorityList = [
 	{ value: 'Low', label: 'Low' },
@@ -35,7 +36,9 @@ const assigneeList = [
 export const TaskPage = () => {
 	const { state } = useLocation();
 	const task = state?.task;
-
+	// const employeeState = state?.employee;
+	const [tasksByEmployee, setTasksByEmployee] = useState([]);
+	const employeeName = tasksByEmployee?.Fname + ' ' + tasksByEmployee?.Lname;
 	const [editEnable, setEditEnable] = useState(false);
 	const handleEdit = () => {
 		setEditEnable(true);
@@ -77,7 +80,24 @@ export const TaskPage = () => {
 		// console.log('task: ', task);
 		// console.log('newTask: ', newTask);
 	};
+	useEffect(() => {
+		fetchTaskData();
+	}, [task]);
 
+	async function fetchTaskData() {
+		const tasks = await fetchTaskEmployee(task.id);
+		setTasksByEmployee(tasks);
+		console.log('TASKS BY EMPLOYEE: ', tasks);
+	}
+	async function fetchTaskEmployee(id) {
+		try {
+			const task = await fetchTasksById(id);
+			return task.Employee;
+		} catch (error) {
+			console.error(`Error fetching employee for task with ID ${id}:`, error);
+			return [];
+		}
+	}
 	return (
 		<div>
 			<Helmet>
@@ -182,7 +202,7 @@ export const TaskPage = () => {
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties assignee-property'>
-								{!editEnable && task.assignee}
+								{!editEnable && employeeName}
 								{editEnable && (
 									<Form.Select
 										aria-label='Default select example'
@@ -191,7 +211,7 @@ export const TaskPage = () => {
 										onChange={handleAssigneeChange}
 									>
 										<option selected disabled>
-											{task?.assignee}
+											{employeeName}
 										</option>
 										{assigneeList.map((_assignee) => (
 											<option key={_assignee.value} value={_assignee.value}>

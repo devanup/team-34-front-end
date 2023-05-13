@@ -11,15 +11,3 @@ export async function fetchEmployees() {
 		return [];
 	}
 }
-
-export async function fetchEmployeeById(id) {
-	try {
-		const response = await axios.get(
-			`https://team34-backend.herokuapp.com/api/employees/${id}`,
-		);
-		return response.data;
-	} catch (error) {
-		console.error(`Error fetching employee with ID ${id}:`, error);
-		return null;
-	}
-}

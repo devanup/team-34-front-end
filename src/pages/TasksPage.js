@@ -20,12 +20,9 @@ export const TasksPage = () => {
 				<Card.Body className='p-0'>
 					<Container fluid className='p-0'>
 						<Row>
-							<Col md={8}>
-								<h2 className='sans-serif mt-2 mb-5'>
-									{/* <FontAwesomeIcon icon={faRectangleList} />*/} Tasks
-									Overview
-								</h2>
-							</Col>
+							{/* <Col md={8}>
+								<h2 className='sans-serif mt-2'>Tasks Overview</h2>
+							</Col> */}
 							{/* <Col md>
 								<div className='search-wrap'>
 									<div className='search-icon-wrap'>
@@ -42,7 +39,7 @@ export const TasksPage = () => {
 								</div>
 							</Col> */}
 						</Row>
-						<Row className='text-center'>
+						{/* <Row className='text-center mt-5'>
 							<Col md={3}>
 								<Card className='card task-card p-3 mb-4'>
 									<div className='icon mt-3 mb-3'>
@@ -79,7 +76,7 @@ export const TasksPage = () => {
 									<h6 className='mb-2 card-count-display'>1</h6>
 								</Card>
 							</Col>
-						</Row>
+						</Row> */}
 					</Container>
 				</Card.Body>
 			</Card>
