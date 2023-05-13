@@ -4,10 +4,12 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Tasks from '../components/Tasks/Tasks';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
+import { updateEmployee } from '../components/Employees/updateEmployee';
+import { fetchEmployeeById } from '../components/Employees/fetchEmployeesByID';
 
 const departmentList = [
 	{ value: 'Engineering', label: 'Engineering' },
@@ -22,6 +24,7 @@ export const EmployeePage = () => {
 	const employee = state?.employee;
 	const employeeName = employee.Fname + ' ' + employee.Lname;
 	const [editEnable, setEditEnable] = useState(false);
+	const [tasksByEmpl, setTasksByEmpl] = useState([]);
 
 	const handleEdit = () => {
 		setEditEnable(true);
@@ -32,12 +35,20 @@ export const EmployeePage = () => {
 		setEditEnable(false);
 		setSelectedEmployee(employee);
 	};
-	const handleSave = () => {
+	async function handleSave() {
 		setEditEnable(false);
-		employee.Fname = selectedEmployee.Fname;
-		employee.Lname = selectedEmployee.Lname;
-		employee.department = selectedEmployee.department;
-	};
+		try {
+			await updateEmployee(selectedEmployee.id, {
+				Fname: selectedEmployee.Fname,
+				Lname: selectedEmployee.Lname,
+				department: selectedEmployee.department,
+			});
+			console.log('Employee updated successfully!');
+		} catch (error) {
+			// Handle error
+			console.error('Error deleting employee:', error);
+		}
+	}
 	const handleFirstNameChange = (e) => {
 		const newEmployee = { ...selectedEmployee, Fname: e.target.value };
 		setSelectedEmployee(newEmployee);
@@ -50,6 +61,29 @@ export const EmployeePage = () => {
 		const newEmployee = { ...selectedEmployee, department: e.target.value };
 		setSelectedEmployee(newEmployee);
 	};
+	useEffect(() => {
+		fetchEmployeeData();
+		setSelectedEmployee(employee);
+	}, [employee]);
+
+	async function fetchEmployeeData() {
+		const tasks = await fetchEmployeeTasks(employee.id);
+		setTasksByEmpl(tasks);
+	}
+	async function fetchEmployeeTasks(id) {
+		try {
+			const employee = await fetchEmployeeById(id);
+			return employee.Tasks;
+		} catch (error) {
+			console.error(`Error fetching tasks for employee with ID ${id}:`, error);
+			return [];
+		}
+	}
+	const completedTasksCount = tasksByEmpl.reduce(
+		(count, task) => (task.status === 'completed' ? count + 1 : count),
+		0,
+	);
+
 	return (
 		<div>
 			<Helmet>
@@ -116,7 +150,7 @@ export const EmployeePage = () => {
 							{!editEnable && (
 								<div className='mb-3 name-description'>
 									<h4 className='m-0 p-0'>
-										{employeeName
+										{(employee.Fname + ' ' + employee.Lname)
 											.split(' ')
 											.map(
 												(word) =>
@@ -172,12 +206,14 @@ export const EmployeePage = () => {
 
 						<Col md={3} className='mb-4'>
 							<div className='properties property-title'>
-								{employee.taskAssigned > 1 ? 'Tasks' : 'Task'} Assigned
+								{tasksByEmpl.length > 1 ? 'Tasks' : 'Task'} Assigned
 							</div>
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties'>
-								<span className=''>{employee.taskAssigned}</span>
+								{console.log('tasksByEmpl: ', tasksByEmpl)}
+								{/* {console.log('nonEmptyTasks', nonEmptyTasks)} */}
+								<span className=''>{tasksByEmpl.length}</span>
 								{/* {editEnable && (
 									<span>
 										<input type='text' value={employee.taskAssigned} />
@@ -188,12 +224,12 @@ export const EmployeePage = () => {
 
 						<Col md={3} className='mb-4'>
 							<div className='properties property-title'>
-								{employee.taskAssigned > 1 ? 'Tasks' : 'Task'} Completed
+								{tasksByEmpl.length > 1 ? 'Tasks' : 'Task'} Completed
 							</div>
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties'>
-								<span className=''>{employee.taskCompleted}</span>
+								<span className=''>{completedTasksCount}</span>
 								{/* {editEnable && (
 									<span>
 										<input type='text' value={employee.taskCompleted} />
@@ -205,7 +241,13 @@ export const EmployeePage = () => {
 						{/* view employee specific Tasks here */}
 						<Col md={12} className='mt-4'>
 							<div className='properties'>
-								<Tasks showActions={true} showViewTaskButton={false} />
+								<Tasks
+									showActions={true}
+									showViewTaskButton={false}
+									tasksByEmpl={tasksByEmpl}
+									employeeName={employeeName}
+								/>
+								{console.log(tasksByEmpl)}
 							</div>
 						</Col>
 						{editEnable && (

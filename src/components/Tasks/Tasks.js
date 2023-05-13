@@ -14,7 +14,13 @@ import { CreateTaskForm } from './CreateTaskForm';
 // import { TaskPage } from '../../pages/TaskPage';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
-function Tasks({ showActions, showCreateNewTaskButton, showViewTaskButton }) {
+function Tasks({
+	showActions,
+	showCreateNewTaskButton,
+	showViewTaskButton,
+	tasksByEmpl,
+	employeeName,
+}) {
 	const tasks = [
 		{
 			id: 1,
@@ -108,7 +114,7 @@ function Tasks({ showActions, showCreateNewTaskButton, showViewTaskButton }) {
 						<tbody>
 							{tasks.length === 0 ? (
 								<tr>
-									<td colSpan='4'>
+									<td colSpan='12'>
 										<div className='empty-state'>
 											<div className='mt-4 mb-4 empty-state-icon-wrap tick-icon'></div>
 											<h3>You're on top of things!</h3>
@@ -117,7 +123,7 @@ function Tasks({ showActions, showCreateNewTaskButton, showViewTaskButton }) {
 									</td>
 								</tr>
 							) : (
-								tasks.map((task, index) => (
+								(tasksByEmpl ? tasksByEmpl : tasks).map((task, index) => (
 									<tr key={index}>
 										<td>{task.description}</td>
 										<td className='priority'>
@@ -155,7 +161,7 @@ function Tasks({ showActions, showCreateNewTaskButton, showViewTaskButton }) {
 													task.status.slice(1)}
 											</span>
 										</td>
-										<td>{task.assignee}</td>
+										<td>{employeeName ? employeeName : task.assignee}</td>
 										{showActions && (
 											<td>
 												<Button

@@ -9,10 +9,10 @@ import {
 
 function Overview() {
 	return (
-		<Card className='overview p-0 mb-5'>
+		<Card className='overview p-0'>
 			<Card.Body className='p-0'>
 				<h2 className='sans-serif mt-2 mb-5'>Dashboard</h2>
-				<Container fluid className='p-0'>
+				{/* <Container fluid className='p-0 mt-5'>
 					<Row className='text-center'>
 						<Col md>
 							<Card className='card task-card p-3 mb-4'>
@@ -42,7 +42,7 @@ function Overview() {
 							</Card>
 						</Col>
 					</Row>
-				</Container>
+				</Container> */}
 			</Card.Body>
 		</Card>
 	);

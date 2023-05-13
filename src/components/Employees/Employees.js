@@ -8,20 +8,61 @@ import { useState, useEffect } from 'react';
 import { AddEmployee } from './AddEmployeeForm';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { fetchEmployees } from './fetchEmployees';
+import { fetchEmployeeById } from './fetchEmployeesByID';
 import { deleteEmployee } from './deleteEmployee';
 
-function Employees({ showAddEmployeeButton }) {
+function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 	const [employees, setEmployees] = useState([]);
+	const [tasks, setTasks] = useState({});
+	const [numEmployees, setNumEmployees] = useState(0);
+	const [numTasks, setNumTasks] = useState(0);
+	const [numCompletedTasks, setNumCompletedTasks] = useState(0);
 
 	async function fetchEmployeeData() {
 		const data = await fetchEmployees();
 		setEmployees(data);
+		onEmployeeUpdate(data);
+
+		// Fetch tasks for each employee and store them in the tasks state
+		const tasksData = {};
+		let totalTasks = 0;
+		let totalCompletedTasks = 0;
+
+		for (const employee of data) {
+			const tasks = await fetchEmployeeTasks(employee.id);
+
+			tasksData[employee.id] = tasks;
+			totalTasks += tasks.length;
+			totalCompletedTasks += tasks.filter(
+				(task) => task.status === 'completed',
+			).length;
+		}
+
+		setTasks(tasksData);
+		const nonEmptyTasks = Object.values(tasksData).filter(
+			(taskArr) => taskArr.length > 0,
+		);
+		// console.log('Number of tasks:', nonEmptyTasks.length);
+		// console.log('tasks', tasksData);
+		setNumEmployees(data.length);
+		setNumTasks(totalTasks);
+		setNumCompletedTasks(totalCompletedTasks);
+	}
+
+	async function fetchEmployeeTasks(id) {
+		try {
+			const employee = await fetchEmployeeById(id);
+			return employee.Tasks;
+		} catch (error) {
+			console.error(`Error fetching tasks for employee with ID ${id}:`, error);
+			return [];
+		}
 	}
 
 	useEffect(() => {
 		// Fetch employees when the component mounts
 		fetchEmployeeData();
-	}, [employees]);
+	}, []);
 
 	const [displayForm, setDisplayForm] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -52,15 +93,19 @@ function Employees({ showAddEmployeeButton }) {
 				)
 			) {
 				await deleteEmployee(id);
-				setEmployees((prevEmployees) =>
-					prevEmployees.filter((employee) => employee.id !== id),
+				const updatedEmployees = employees.filter(
+					(employee) => employee.id !== id,
 				);
+				setEmployees(updatedEmployees);
+				// setEmployees((prevEmployees) =>
+				// 	prevEmployees.filter((employee) => employee.id !== id),
+				// );
+				onEmployeeUpdate(updatedEmployees);
 			}
 		} catch (error) {
 			console.error('Error deleting employee:', error);
 		}
 	}
-
 	return (
 		<Container fluid className='p-0'>
 			<Row className='mb-5'>
@@ -98,8 +143,8 @@ function Employees({ showAddEmployeeButton }) {
 							<tr>
 								<th>Name</th>
 								<th>Department</th>
-								<th>Tasks Assigned</th>
-								<th>Tasks Completed</th>
+								{/* <th>Tasks Assigned</th>
+								<th>Tasks Completed</th> */}
 								{showAddEmployeeButton && <th>Actions</th>}
 							</tr>
 						</thead>
@@ -119,10 +164,10 @@ function Employees({ showAddEmployeeButton }) {
 									<tr key={index}>
 										<td>{`${employee.Fname + ' ' + employee.Lname}`}</td>
 										<td className='department'>{employee.department}</td>
-										<td className='task-assigned-count'>
+										{/* <td className='task-assigned-count'>
 											{employee.taskAssigned}
-										</td>
-										<td>{employee.taskCompleted}</td>
+										</td> */}
+										{/* <td>{employee.taskCompleted}</td> */}
 										{showAddEmployeeButton && (
 											<td>
 												<Button
