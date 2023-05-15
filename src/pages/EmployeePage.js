@@ -12,11 +12,11 @@ import { updateEmployee } from '../components/Employees/updateEmployee';
 import { fetchEmployeeByID } from '../components/Employees/fetchEmployeeByID';
 
 const departmentList = [
-	{ value: 'Engineering', label: 'Engineering' },
+	{ value: 'Marketing & Sales', label: 'Marketing & Sales' },
 	{ value: 'Design', label: 'Design' },
-	{ value: 'Sales/Marketing', label: 'Sales/Marketing' },
-	{ value: 'Legal', label: 'Legal' },
+	{ value: 'Engineering', label: 'Engineering' },
 	{ value: 'Finance', label: 'Finance' },
+	{ value: 'Legal', label: 'Legal' },
 	{ value: 'HR', label: 'HR' },
 ];
 export const EmployeePage = () => {
@@ -245,6 +245,7 @@ export const EmployeePage = () => {
 									showViewTaskButton={false}
 									hideDeleteButton={true}
 									tasksByEmpl={tasksByEmpl}
+									tasksByEmplCount={tasksByEmpl.length}
 									employeeName={employeeName}
 								/>
 							</div>
