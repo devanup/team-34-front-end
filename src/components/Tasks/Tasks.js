@@ -19,6 +19,7 @@ function Tasks({
 	showCreateNewTaskButton,
 	showViewTaskButton,
 	tasksByEmpl,
+	tasksByEmplCount,
 	employeeName,
 	hideDeleteButton,
 }) {
@@ -113,7 +114,7 @@ function Tasks({
 							</tr>
 						</thead>
 						<tbody>
-							{tasks.length === 0 ? (
+							{tasks.length === 0 || tasksByEmplCount < 1 ? (
 								<tr>
 									<td colSpan='12'>
 										<div className='empty-state'>
