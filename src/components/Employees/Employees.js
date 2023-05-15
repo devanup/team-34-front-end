@@ -4,75 +4,47 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { AddEmployee } from './AddEmployeeForm';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { fetchEmployees } from './fetchEmployees';
-import { fetchEmployeeById } from './fetchEmployeesByID';
 import { deleteEmployee } from './deleteEmployee';
+import EmployeeContext from './EmployeeContext';
 
 function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
-	const [employees, setEmployees] = useState([]);
-	const [tasks, setTasks] = useState({});
-	const [numEmployees, setNumEmployees] = useState(0);
-	const [numTasks, setNumTasks] = useState(0);
-	const [numCompletedTasks, setNumCompletedTasks] = useState(0);
-
-	async function fetchEmployeeData() {
-		const data = await fetchEmployees();
-		setEmployees(data);
-		onEmployeeUpdate(data);
-
-		// Fetch tasks for each employee and store them in the tasks state
-		const tasksData = {};
-		let totalTasks = 0;
-		let totalCompletedTasks = 0;
-
-		for (const employee of data) {
-			const tasks = await fetchEmployeeTasks(employee.id);
-
-			tasksData[employee.id] = tasks;
-			totalTasks += tasks.length;
-			totalCompletedTasks += tasks.filter(
-				(task) => task.status === 'completed',
-			).length;
-		}
-
-		setTasks(tasksData);
-		const nonEmptyTasks = Object.values(tasksData).filter(
-			(taskArr) => taskArr.length > 0,
-		);
-		// console.log('Number of tasks:', nonEmptyTasks.length);
-		// console.log('tasks', tasksData);
-		setNumEmployees(data.length);
-		setNumTasks(totalTasks);
-		setNumCompletedTasks(totalCompletedTasks);
-	}
-
-	async function fetchEmployeeTasks(id) {
-		try {
-			const employee = await fetchEmployeeById(id);
-			return employee.Tasks;
-		} catch (error) {
-			console.error(`Error fetching tasks for employee with ID ${id}:`, error);
-			return [];
-		}
-	}
+	const { employees, updateEmployees } = useContext(EmployeeContext);
 
 	useEffect(() => {
 		// Fetch employees when the component mounts
 		fetchEmployeeData();
 	}, []);
 
+	async function fetchEmployeeData() {
+		const data = await fetchEmployees();
+		updateEmployees(data);
+	}
+
+	// async function fetchEmployeeTasks(id) {
+	// 	try {
+	// 		const employee = await fetchEmployeeById(id);
+	// 		return employee.Tasks;
+	// 	} catch (error) {
+	// 		console.error(`Error fetching tasks for employee with ID ${id}:`, error);
+	// 		return [];
+	// 	}
+	// }
+
 	const [displayForm, setDisplayForm] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
 	const handleShowFormBtn = () => {
 		setDisplayForm(true);
+		console.log('form opened');
 	};
 
 	const handleCloseFormBtn = () => {
 		setDisplayForm(false);
+		console.log('form closed');
 	};
 
 	const navigate = useNavigate();
@@ -96,10 +68,8 @@ function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 				const updatedEmployees = employees.filter(
 					(employee) => employee.id !== id,
 				);
-				setEmployees(updatedEmployees);
-				// setEmployees((prevEmployees) =>
-				// 	prevEmployees.filter((employee) => employee.id !== id),
-				// );
+				updateEmployees(updatedEmployees);
+
 				onEmployeeUpdate(updatedEmployees);
 			}
 		} catch (error) {
@@ -199,8 +169,10 @@ function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 			</Row>
 			{displayForm && (
 				<AddEmployee
-					displayForm={displayForm}
+					handleShowFormBtn={handleShowFormBtn}
 					handleCloseFormBtn={handleCloseFormBtn}
+					employees={employees}
+					updateEmployees={updateEmployees}
 				/>
 			)}
 		</Container>

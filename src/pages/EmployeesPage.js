@@ -11,76 +11,10 @@ import { Helmet } from 'react-helmet';
 import { fetchEmployees } from '../components/Employees/fetchEmployees';
 // import {  } from '../components/Tasks/fetchTasks';
 import { AddEmployee } from '../components/Employees/AddEmployeeForm';
-import { fetchEmployeeById } from '../components/Employees/fetchEmployeesByID';
-import { useEffect, useState } from 'react';
+
+import { EmployeeProvider } from '../components/Employees/EmployeeContext';
 
 export const EmployeesPage = () => {
-	const [employees, setEmployees] = useState([]);
-	const [tasks, setTasks] = useState({});
-	const [numEmployees, setNumEmployees] = useState(0);
-	const [numTasks, setNumTasks] = useState(0);
-	const [numCompletedTasks, setNumCompletedTasks] = useState(0);
-
-	useEffect(() => {
-		// Fetch employees when the component mounts
-		fetchEmployeeData();
-	}, []);
-
-	async function fetchEmployeeData() {
-		const data = await fetchEmployees();
-		setEmployees(data);
-		setNumEmployees(data.length);
-
-		// Fetch tasks for each employee and store them in the tasks state
-		const tasksData = {};
-		let totalTasks = 0;
-		let totalCompletedTasks = 0;
-
-		for (const employee of data) {
-			const tasks = await fetchEmployeeTasks(employee.id);
-			tasksData[employee.id] = tasks;
-			totalTasks += tasks.length;
-			totalCompletedTasks += tasks.filter(
-				(task) => task.status === 'completed',
-			).length;
-		}
-
-		setTasks(tasksData);
-		setNumEmployees(data.length);
-		setNumTasks(totalTasks);
-		setNumCompletedTasks(totalCompletedTasks);
-	}
-
-	async function fetchEmployeeTasks(id) {
-		try {
-			const employee = await fetchEmployeeById(id);
-			return employee.Tasks;
-		} catch (error) {
-			console.error(`Error fetching tasks for employee with ID ${id}:`, error);
-			return [];
-		}
-	}
-
-	// useEffect(() => {
-	// 	// Update numTasks and numCompletedTasks when the tasks state changes
-	// const nonEmptyTasks = Object.values(tasks).filter(
-	// 	(taskArr) => taskArr.length > 0,
-	// );
-	// 	setNumTasks(nonEmptyTasks.length);
-
-	// const completedTasks = nonEmptyTasks.flatMap((taskArr) =>
-	// 	taskArr.filter((task) => task.status === 'completed'),
-	// );
-	// 	setNumCompletedTasks(completedTasks.length);
-	// }, [employees]);
-
-	const updateEmployeeCount = (newEmployees) => {
-		setEmployees(newEmployees);
-		// console.log(`Number of employees: ${newEmployees.length}`);
-	};
-
-	// console.log('Employees[ ]: ', employees);
-
 	return (
 		<div>
 			<Helmet>
@@ -143,10 +77,9 @@ export const EmployeesPage = () => {
 					</Container>
 				</Card.Body>
 			</Card>
-			<Employees
-				showAddEmployeeButton={true}
-				onEmployeeUpdate={updateEmployeeCount}
-			/>
+			<EmployeeProvider>
+				<Employees showAddEmployeeButton={true} />
+			</EmployeeProvider>
 		</div>
 	);
 };

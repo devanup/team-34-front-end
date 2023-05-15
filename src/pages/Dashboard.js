@@ -2,6 +2,7 @@ import Overview from '../components/Overview/Overview';
 import Tasks from '../components/Tasks/Tasks';
 import Employees from '../components/Employees/Employees';
 import { Helmet } from 'react-helmet';
+import { EmployeeProvider } from '../components/Employees/EmployeeContext';
 
 export const Dashboard = () => {
 	return (
@@ -15,7 +16,9 @@ export const Dashboard = () => {
 				showCreateNewTaskButton={false}
 				showViewTaskButton={true}
 			/>
-			<Employees />
+			<EmployeeProvider>
+				<Employees />
+			</EmployeeProvider>
 		</>
 	);
 };

@@ -1,11 +1,13 @@
 import './AddEmployeeForm.css';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { createEmployee } from './createEmployee';
 
-export const AddEmployee = ({ handleCloseFormBtn }) => {
+export const AddEmployee = ({
+	handleCloseFormBtn,
+	employees,
+	updateEmployees,
+}) => {
 	const [formSuccess, setFormSuccess] = useState(false);
 	const handleCancelBtn = () => {
 		handleCloseFormBtn();
@@ -35,22 +37,26 @@ export const AddEmployee = ({ handleCloseFormBtn }) => {
 		if (newEmployee) {
 			console.log('New employee added:', newEmployee);
 			setFormSuccess(true);
-			// Do something with the new employee data, such as updating the employee list
+			const updatedEmployees = [...employees, newEmployee];
+			updateEmployees(updatedEmployees);
+			handleShowFormBtn();
+			handleCloseFormBtn();
 		} else {
 			console.error('Failed to add employee');
 		}
 	};
 
+	const handleShowFormBtn = () => {
+		setFormSuccess(false);
+	};
+
 	return (
-		<>
+		<div className='form-flex-wrap'>
 			{!formSuccess && (
 				<div className='form-overlay' onClick={handleCancelBtn}></div>
 			)}
 			{!formSuccess && (
 				<div className='form-wrap add-employee-form-wrap'>
-					{/* <div className='close-menu-icon'>
-					<FontAwesomeIcon icon={faXmark} onClick={handleCancelBtn} />
-				</div> */}
 					<form onSubmit={handleSubmit}>
 						<h1 className='mb-4 p-0'>Add Employee</h1>
 						<Container fluid className='p-0'>
@@ -130,6 +136,6 @@ export const AddEmployee = ({ handleCloseFormBtn }) => {
 					</form>
 				</div>
 			)}
-		</>
+		</div>
 	);
 };
