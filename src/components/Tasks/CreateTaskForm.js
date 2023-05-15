@@ -68,7 +68,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 								</label>
 								<select id='status' name='status' className='form-input select'>
 									<option value='Not-started'>Not-started</option>
-									<option value='In-progress'>In-progress</option>
+									{/* <option value='In-progress'>In-progress</option> */}
 									<option value='Completed'>Completed</option>
 								</select>
 							</div>
