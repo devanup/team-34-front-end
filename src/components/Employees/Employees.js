@@ -8,6 +8,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AddEmployee } from './AddEmployeeForm';
 import { useNavigate } from 'react-router-dom';
 import { fetchEmployees } from './fetchEmployees';
+import { fetchEmployeeByID } from './fetchEmployeeByID';
 import { deleteEmployee } from './deleteEmployee';
 import EmployeeContext from './EmployeeContext';
 
@@ -24,27 +25,15 @@ function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 		updateEmployees(data);
 	}
 
-	// async function fetchEmployeeTasks(id) {
-	// 	try {
-	// 		const employee = await fetchEmployeeById(id);
-	// 		return employee.Tasks;
-	// 	} catch (error) {
-	// 		console.error(`Error fetching tasks for employee with ID ${id}:`, error);
-	// 		return [];
-	// 	}
-	// }
-
 	const [displayForm, setDisplayForm] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
 	const handleShowFormBtn = () => {
 		setDisplayForm(true);
-		console.log('form opened');
 	};
 
 	const handleCloseFormBtn = () => {
 		setDisplayForm(false);
-		console.log('form closed');
 	};
 
 	const navigate = useNavigate();
@@ -56,21 +45,37 @@ function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 	};
 
 	async function handleDeleteBtn(Fname, id) {
-		try {
-			if (
-				window.confirm(
-					`Are you sure you want to delete ${Fname.split(' ')
-						.map((word) => word.charAt(0).toLocaleUpperCase() + word.slice(1))
-						.join(' ')}?`,
-				)
-			) {
-				await deleteEmployee(id);
-				const updatedEmployees = employees.filter(
-					(employee) => employee.id !== id,
-				);
-				updateEmployees(updatedEmployees);
+		const employeeTasks = await fetchEmployeeByID(id);
+		let confirmMessage = ``;
+		// Filter tasks with status 'not started'
+		const notStartedTasks = employeeTasks.Tasks.filter(
+			(task) => task.status === 'not started',
+		);
+		const taskText = notStartedTasks.length === 1 ? 'task' : 'tasks';
 
-				onEmployeeUpdate(updatedEmployees);
+		try {
+			if (notStartedTasks.length > 0) {
+				confirmMessage = `${`Please note that ${Fname.split(' ')
+					.map((word) => word.charAt(0).toLocaleUpperCase() + word.slice(1))
+					.join(' ')} has ${
+					notStartedTasks.length
+				} incomplete ${taskText}. The tasks must be assigned to another employee before deleting this employee.`}`;
+				if (!window.confirm(confirmMessage)) {
+					return;
+				}
+			} else {
+				confirmMessage = `${`Are you sure you want to delete ${Fname.split(' ')
+					.map((word) => word.charAt(0).toLocaleUpperCase() + word.slice(1))
+					.join(' ')}?`}`;
+				if (window.confirm(confirmMessage)) {
+					await deleteEmployee(id);
+					const updatedEmployees = employees.filter(
+						(employee) => employee.id !== id,
+					);
+					updateEmployees(updatedEmployees);
+
+					onEmployeeUpdate(updatedEmployees);
+				}
 			}
 		} catch (error) {
 			console.error('Error deleting employee:', error);

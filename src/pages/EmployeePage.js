@@ -9,7 +9,7 @@ import Tasks from '../components/Tasks/Tasks';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
 import { updateEmployee } from '../components/Employees/updateEmployee';
-import { fetchEmployeeById } from '../components/Employees/fetchEmployeesByID';
+import { fetchEmployeeByID } from '../components/Employees/fetchEmployeeByID';
 
 const departmentList = [
 	{ value: 'Engineering', label: 'Engineering' },
@@ -72,7 +72,7 @@ export const EmployeePage = () => {
 	}
 	async function fetchEmployeeTasks(id) {
 		try {
-			const employee = await fetchEmployeeById(id);
+			const employee = await fetchEmployeeByID(id);
 			return employee.Tasks;
 		} catch (error) {
 			console.error(`Error fetching tasks for employee with ID ${id}:`, error);
@@ -211,7 +211,6 @@ export const EmployeePage = () => {
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties'>
-								{console.log('tasksByEmpl: ', tasksByEmpl)}
 								{/* {console.log('nonEmptyTasks', nonEmptyTasks)} */}
 								<span className=''>{tasksByEmpl.length}</span>
 								{/* {editEnable && (
@@ -244,10 +243,10 @@ export const EmployeePage = () => {
 								<Tasks
 									showActions={true}
 									showViewTaskButton={false}
+									hideDeleteButton={true}
 									tasksByEmpl={tasksByEmpl}
 									employeeName={employeeName}
 								/>
-								{console.log(tasksByEmpl)}
 							</div>
 						</Col>
 						{editEnable && (
