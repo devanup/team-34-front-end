@@ -20,6 +20,7 @@ function Tasks({
 	showViewTaskButton,
 	tasksByEmpl,
 	employeeName,
+	hideDeleteButton,
 }) {
 	const tasks = [
 		{
@@ -171,13 +172,15 @@ function Tasks({
 												>
 													<FontAwesomeIcon icon={faEye} />
 												</Button>
-												<Button
-													variant='outline-danger'
-													className='action-btn'
-													onClick=''
-												>
-													<FontAwesomeIcon icon={faXmark} />
-												</Button>
+												{!hideDeleteButton && (
+													<Button
+														variant='outline-danger'
+														className='action-btn'
+														onClick=''
+													>
+														<FontAwesomeIcon icon={faXmark} />
+													</Button>
+												)}
 											</td>
 										)}
 									</tr>

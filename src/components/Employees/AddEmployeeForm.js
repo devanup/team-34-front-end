@@ -35,7 +35,7 @@ export const AddEmployee = ({
 		const newEmployee = await createEmployee(employeeData);
 
 		if (newEmployee) {
-			console.log('New employee added:', newEmployee);
+			// console.log('New employee added:', newEmployee);
 			setFormSuccess(true);
 			const updatedEmployees = [...employees, newEmployee];
 			updateEmployees(updatedEmployees);

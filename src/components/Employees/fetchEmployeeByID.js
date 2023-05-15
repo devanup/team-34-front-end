@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export async function fetchEmployeeById(id) {
+export async function fetchEmployeeByID(id) {
 	try {
 		const response = await axios.get(
 			`https://team34-backend.herokuapp.com/api/employees/${id}`,
