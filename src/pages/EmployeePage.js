@@ -10,6 +10,8 @@ import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
 import { updateEmployee } from '../components/Employees/updateEmployee';
 import { fetchEmployeeByID } from '../components/Employees/fetchEmployeeByID';
+import { deleteEmployee } from '../components/Employees/deleteEmployee';
+import { useNavigate } from 'react-router-dom';
 
 const departmentList = [
 	{ value: 'Marketing & Sales', label: 'Marketing & Sales' },
@@ -66,6 +68,26 @@ export const EmployeePage = () => {
 		fetchEmployeeData();
 		setSelectedEmployee(employee);
 	}, [employee]);
+
+	const navigate = useNavigate();
+
+	async function handleDeleteBtn(id) {
+		// Display a confirmation dialog
+		const confirmDelete = window.confirm(
+			'Are you sure you want to delete this employee?',
+		);
+
+		if (confirmDelete) {
+			try {
+				await deleteEmployee(id);
+				// Redirect to the employee list or perform any other necessary action
+				navigate('/employees');
+			} catch (error) {
+				// Handle error
+				console.error('Error deleting employee:', error);
+			}
+		}
+	}
 
 	async function fetchEmployeeData() {
 		const tasks = await fetchEmployeeTasks(employee.id);
@@ -253,7 +275,10 @@ export const EmployeePage = () => {
 						</Col>
 						{editEnable && (
 							<Col md={12} className='mb-2'>
-								<Button variant='secondary'>
+								<Button
+									variant='secondary'
+									onClick={() => handleDeleteBtn(selectedEmployee.id)}
+								>
 									<FontAwesomeIcon icon={faTrashCan} className='remove-btn' />
 									Remove
 								</Button>
