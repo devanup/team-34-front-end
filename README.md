@@ -2,8 +2,6 @@
 
 <a href="https://devanup.github.io/team-34-front-end/">https://devanup.github.io/team-34-front-end/</a>
 
-<p>Team members: Anup, Jackie, Sukhi</p>
-
 ## OBJECTIVES
 
 - [x] ~~will land on a visually pleasing homepage by default, which allows navigation to view all tasks and all employees~~
@@ -12,9 +10,7 @@
 - [x] ~~can navigate to all tasks view~~
 - [x] ~~can navigate to any single task’s view~~
 - [x] ~~can navigate to any single employee’s view~~
-- [ ] load data dynamically
-- [ ] make the app responsive in smaller devices
-- [ ] clean up the code
+- [x] ~~load data dynamically~~
 
 ## Getting Started with Create React App
 
