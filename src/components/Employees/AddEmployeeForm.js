@@ -95,7 +95,7 @@ export const AddEmployee = ({
 											className='form-input select'
 											required
 										>
-											<option value='' defaultValue>
+											<option value='' defaultValue disabled>
 												Select a Department
 											</option>
 											<option value='Marketing &amp; Sales'>

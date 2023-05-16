@@ -12,7 +12,7 @@ import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
-import { fetchTasksById } from '../components/Tasks/fetchTasksByID';
+import { fetchTaskByID } from '../components/Tasks/fetchTaskByID';
 
 const priorityList = [
 	{ value: 'Low', label: 'Low' },
@@ -91,7 +91,7 @@ export const TaskPage = () => {
 	}
 	async function fetchTaskEmployee(id) {
 		try {
-			const task = await fetchTasksById(id);
+			const task = await fetchTaskByID(id);
 			return task.Employee;
 		} catch (error) {
 			console.error(`Error fetching employee for task with ID ${id}:`, error);
@@ -202,7 +202,7 @@ export const TaskPage = () => {
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties assignee-property'>
-								{!editEnable && employeeName}
+								{!editEnable && (employeeName ? employeeName : 'Unassigned')}
 								{editEnable && (
 									<Form.Select
 										aria-label='Default select example'
@@ -211,7 +211,7 @@ export const TaskPage = () => {
 										onChange={handleAssigneeChange}
 									>
 										<option selected disabled>
-											{employeeName}
+											{employeeName ? employeeName : 'Unassigned'}
 										</option>
 										{assigneeList.map((_assignee) => (
 											<option key={_assignee.value} value={_assignee.value}>

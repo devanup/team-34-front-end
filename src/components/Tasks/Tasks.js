@@ -15,6 +15,8 @@ import { CreateTaskForm } from './CreateTaskForm';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import TaskContext from './TaskContext';
 import { fetchTasks } from './fetchTasks';
+import { fetchTaskByID } from './fetchTaskByID';
+import { deleteTask } from './deleteTask';
 
 function Tasks({
 	showActions,
@@ -28,6 +30,7 @@ function Tasks({
 	const { tasks, updateTasks } = useContext(TaskContext);
 	const [displayForm, setDisplayForm] = useState(false);
 	const [selectedTask, setSelectedTask] = useState(null);
+	const [employeeNames, setEmployeeNames] = useState({});
 
 	useEffect(() => {
 		// Fetch employees when the component mounts
@@ -37,6 +40,29 @@ function Tasks({
 	async function fetchTaskData() {
 		const data = await fetchTasks();
 		updateTasks(data);
+		fetchEmployeeNames(data);
+	}
+
+	async function fetchEmployeeNames(tasks) {
+		const names = {};
+		for (const task of tasks) {
+			const employeeName = await getEmployeeName(task);
+			names[task.id] = employeeName;
+		}
+		setEmployeeNames(names);
+	}
+
+	async function getEmployeeName(task) {
+		try {
+			const taskDetails = await fetchTaskByID(task.id);
+			const employeeName = taskDetails.Employee
+				? `${taskDetails.Employee.Fname} ${taskDetails.Employee.Lname}`
+				: 'NA';
+			return employeeName;
+		} catch (error) {
+			console.error('Error fetching employee name:', error);
+			return 'NA';
+		}
 	}
 
 	const handleShowFormBtn = () => {
@@ -58,6 +84,27 @@ function Tasks({
 	const handleAssigneeClick = (task) => {
 		// Route to the corresponding Employee page
 	};
+
+	async function handleDeleteBtn(id) {
+		const task = await fetchTaskByID(id);
+		console.log('task', task);
+		let confirmMessage = ``;
+		// Filter tasks with status 'not started'
+		const emplAssigned = '';
+
+		try {
+			confirmMessage = `${`Are you sure you want to delete ?`}`;
+			if (window.confirm(confirmMessage)) {
+				await deleteTask(id);
+				const updatedTasks = tasks.filter((task) => task.id !== id);
+				updateTasks(updatedTasks);
+
+				// onEmployeeUpdate(updatedEmployees);
+			}
+		} catch (error) {
+			console.error('Error deleting task:', error);
+		}
+	}
 
 	return (
 		<Container fluid className='p-0'>
@@ -92,7 +139,7 @@ function Tasks({
 						</Row>
 					</Card>
 
-					<Table borderless responsive>
+					<Table borderless responsive style={{ textTransform: 'capitalize' }}>
 						<thead className='sans-serif'>
 							<tr>
 								<th>Description</th>
@@ -115,7 +162,7 @@ function Tasks({
 								</tr>
 							) : (
 								(tasksByEmpl ? tasksByEmpl : tasks).map((task, index) => (
-									<tr key={index}>
+									<tr key={task.id}>
 										<td>{task.description}</td>
 										<td className='priority'>
 											<span
@@ -133,7 +180,6 @@ function Tasks({
 													: task.status
 											}`}
 										>
-											{console.log('task.status', task.status)}
 											<span
 												className={`status-label status-label-${
 													task.status === 'not started'
@@ -163,7 +209,10 @@ function Tasks({
 													task.status.slice(1)}
 											</span>
 										</td>
-										<td>{employeeName ? employeeName : task.assignee}</td>
+										<td>{employeeNames[task.id]}</td>
+										{/* <td>{employeeName ? employeeName : task.assignee}</td> */}
+										{/* <td>{task.employeeId ? task.employeeId : 'NA'}</td> */}
+
 										{showActions && (
 											<td>
 												<Button
@@ -177,7 +226,7 @@ function Tasks({
 													<Button
 														variant='outline-danger'
 														className='action-btn'
-														onClick=''
+														onClick={() => handleDeleteBtn(task.id)}
 													>
 														<FontAwesomeIcon icon={faXmark} />
 													</Button>
@@ -206,6 +255,8 @@ function Tasks({
 				<CreateTaskForm
 					displayForm={displayForm}
 					handleCloseFormBtn={handleCloseFormBtn}
+					tasks={tasks}
+					updateTasks={updateTasks}
 				/>
 			)}
 			{/* {selectedTask !== null && <TaskView task={selectedTask} />} */}
