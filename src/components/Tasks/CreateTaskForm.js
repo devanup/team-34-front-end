@@ -24,7 +24,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 	}, []);
 
 	return (
-		<>
+		<div className='form-flex-wrap'>
 			<div className='form-overlay' onClick={handleCancelBtn}></div>
 			<div className='form-wrap create-task-form-wrap'>
 				{/* <div className='close-menu-icon'>
@@ -153,6 +153,6 @@ export const CreateTaskForm = ({ handleCloseFormBtn }) => {
 					</Row>
 				</Container>
 			</div>
-		</>
+		</div>
 	);
 };
