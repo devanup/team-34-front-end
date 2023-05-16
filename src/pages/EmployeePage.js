@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Tasks from '../components/Tasks/Tasks';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
@@ -25,11 +25,11 @@ export const EmployeePage = () => {
 	const employeeName = employee.Fname + ' ' + employee.Lname;
 	const [editEnable, setEditEnable] = useState(false);
 	const [tasksByEmpl, setTasksByEmpl] = useState([]);
+	const [selectedEmployee, setSelectedEmployee] = useState(employee);
 
 	const handleEdit = () => {
 		setEditEnable(true);
 	};
-	const [selectedEmployee, setSelectedEmployee] = useState(employee);
 
 	const handleCancel = () => {
 		setEditEnable(false);
@@ -38,11 +38,12 @@ export const EmployeePage = () => {
 	async function handleSave() {
 		setEditEnable(false);
 		try {
-			await updateEmployee(selectedEmployee.id, {
+			const updatedEmployee = await updateEmployee(selectedEmployee.id, {
 				Fname: selectedEmployee.Fname,
 				Lname: selectedEmployee.Lname,
 				department: selectedEmployee.department,
 			});
+			setSelectedEmployee(updatedEmployee);
 			console.log('Employee updated successfully!');
 		} catch (error) {
 			// Handle error
@@ -150,7 +151,7 @@ export const EmployeePage = () => {
 							{!editEnable && (
 								<div className='mb-3 name-description'>
 									<h4 className='m-0 p-0'>
-										{(employee.Fname + ' ' + employee.Lname)
+										{(selectedEmployee.Fname + ' ' + selectedEmployee.Lname)
 											.split(' ')
 											.map(
 												(word) =>
@@ -183,7 +184,7 @@ export const EmployeePage = () => {
 										/>
 									</span>
 								)} */}
-								{!editEnable && employee.department}
+								{!editEnable && selectedEmployee.department}
 								{editEnable && (
 									<Form.Select
 										aria-label='Default select example'
@@ -192,7 +193,7 @@ export const EmployeePage = () => {
 										onChange={handleDepartmentChange}
 									>
 										<option selected disabled>
-											{employee?.department}
+											{selectedEmployee?.department}
 										</option>
 										{departmentList.map((_department) => (
 											<option key={_department.value} value={_department.value}>
