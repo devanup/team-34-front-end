@@ -21,7 +21,7 @@ const priorityList = [
 ];
 const statusList = [
 	{ value: 'Not-Started', label: 'Not-Started' },
-	{ value: 'In-Progress', label: 'In-Progress' },
+	// { value: 'In-Progress', label: 'In-Progress' },
 	{ value: 'Completed', label: 'Completed' },
 ];
 const assigneeList = [

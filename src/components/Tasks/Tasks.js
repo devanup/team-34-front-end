@@ -9,10 +9,12 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { CreateTaskForm } from './CreateTaskForm';
 // import { TaskPage } from '../../pages/TaskPage';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import TaskContext from './TaskContext';
+import { fetchTasks } from './fetchTasks';
 
 function Tasks({
 	showActions,
@@ -23,32 +25,19 @@ function Tasks({
 	employeeName,
 	hideDeleteButton,
 }) {
-	const tasks = [
-		{
-			id: 1,
-			description: 'Develop a marketing strategy for product launch',
-			priority: 'medium',
-			status: 'not-started',
-			assignee: 'Mark Davidson',
-		},
-		{
-			id: 2,
-			description: 'Redesign mobile app',
-			priority: 'low',
-			status: 'in-progress',
-			assignee: 'Laura Huff',
-		},
-		{
-			id: 3,
-			description: 'Develop prototype software for MVP',
-			priority: 'high',
-			status: 'completed',
-			assignee: 'Christian Wu',
-		},
-	];
-
+	const { tasks, updateTasks } = useContext(TaskContext);
 	const [displayForm, setDisplayForm] = useState(false);
 	const [selectedTask, setSelectedTask] = useState(null);
+
+	useEffect(() => {
+		// Fetch employees when the component mounts
+		fetchTaskData();
+	}, []);
+
+	async function fetchTaskData() {
+		const data = await fetchTasks();
+		updateTasks(data);
+	}
 
 	const handleShowFormBtn = () => {
 		setDisplayForm(true);
@@ -137,11 +126,22 @@ function Tasks({
 													task.priority.slice(1)}
 											</span>
 										</td>
-										<td className={`td-status td-${task.status}`}>
+										<td
+											className={`td-status td-${
+												task.status === 'not started'
+													? 'not-started'
+													: task.status
+											}`}
+										>
+											{console.log('task.status', task.status)}
 											<span
-												className={`status-label status-label-${task.status}`}
+												className={`status-label status-label-${
+													task.status === 'not started'
+														? 'not-started'
+														: task.status
+												}`}
 											>
-												{task.status === 'not-started' && (
+												{task.status === 'not started' && (
 													<FontAwesomeIcon
 														icon={faCircle}
 														className='status-icon'

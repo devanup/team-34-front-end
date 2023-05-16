@@ -14,6 +14,8 @@ import EmployeeContext from './EmployeeContext';
 
 function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 	const { employees, updateEmployees } = useContext(EmployeeContext);
+	const [displayForm, setDisplayForm] = useState(false);
+	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
 	useEffect(() => {
 		// Fetch employees when the component mounts
@@ -24,9 +26,6 @@ function Employees({ showAddEmployeeButton, onEmployeeUpdate }) {
 		const data = await fetchEmployees();
 		updateEmployees(data);
 	}
-
-	const [displayForm, setDisplayForm] = useState(false);
-	const [selectedEmployee, setSelectedEmployee] = useState(null);
 
 	const handleShowFormBtn = () => {
 		setDisplayForm(true);

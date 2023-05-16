@@ -60,11 +60,11 @@
         /* height: 600px; */
         /* display: none; */
         width: 700px !important;
-        position: relative;
+        /* position: relative;
         left: 50%;
         top: 400px !important;
         transform: translateX(-50%) translateY(-50%);
-        background-color: rgb(255, 255, 255);
+        background-color: rgb(255, 255, 255); */
         /* background-color:palegoldenrod !important; */
     }
   }  

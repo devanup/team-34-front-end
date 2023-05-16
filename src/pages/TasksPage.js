@@ -10,6 +10,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faCircle } from '@fortawesome/free-regular-svg-icons';
 import { Helmet } from 'react-helmet';
+import { TaskProvider } from '../components/Tasks/TaskContext';
+
 export const TasksPage = () => {
 	return (
 		<div>
@@ -80,7 +82,9 @@ export const TasksPage = () => {
 					</Container>
 				</Card.Body>
 			</Card>
-			<Tasks showActions={true} showCreateNewTaskButton={true} />
+			<TaskProvider>
+				<Tasks showActions={true} showCreateNewTaskButton={true} />
+			</TaskProvider>
 		</div>
 	);
 };
