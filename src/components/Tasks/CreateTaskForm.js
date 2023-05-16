@@ -4,9 +4,14 @@ import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { createTask } from './createTask';
+import { fetchEmployees } from '../Employees/fetchEmployees';
+import { fetchEmployeeByID } from '../Employees/fetchEmployeeByID';
+import AvailableEmployees from '../Employees/AvailableEmployees';
 
 export const CreateTaskForm = ({ handleCloseFormBtn, tasks, updateTasks }) => {
 	const [formSuccess, setFormSuccess] = useState(false);
+	const [selectedEmployee, setSelectedEmployee] = useState('');
+
 	const handleCancelBtn = () => {
 		handleCloseFormBtn();
 	};
@@ -19,16 +24,22 @@ export const CreateTaskForm = ({ handleCloseFormBtn, tasks, updateTasks }) => {
 
 	useEffect(() => {
 		document.addEventListener('keydown', handleKeyDown);
-
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 		};
 	}, []);
 
+	const handleRadioChange = (event) => {
+		setSelectedEmployee(event.target.value);
+	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		const formData = new FormData(event.target);
 		const taskData = Object.fromEntries(formData.entries());
+
+		// Add the selected employee ID to the taskData object
+		taskData.employeeId = selectedEmployee;
 
 		const newTask = await createTask(taskData);
 
@@ -114,63 +125,24 @@ export const CreateTaskForm = ({ handleCloseFormBtn, tasks, updateTasks }) => {
 									</div>
 								</Col>
 								<label className='mt-4 mb-1'>
-									<h5>Assignee</h5>
+									<h5>Available Staffs</h5>
 								</label>
 								<Col lg={12}>
-									<input
+									{/* <input
 										type='text'
 										id='asignee'
 										placeholder='Invite team member'
 										className='form-input description'
-									/>
+									/> */}
 
 									{/* <div className='name-suggestion'>
-									<ul className='m-0 p-0'>
-										<li className=' mt-1 mb-1 name-list'>Jason Smith</li>
-										<li className=' mt-1 mb-1 name-list'>Kayla Davis</li>
-										<li className=' mt-1 mb-1 name-list'>Andrew Chen</li>
-									</ul>
-								</div> */}
-
-									<div className='assignees text-center mt-4 mb-2'>
 										<ul className='m-0 p-0'>
-											<li className='assignee-list'>
-												Jason Smith{' '}
-												<FontAwesomeIcon
-													icon={faXmark}
-													className='assignee-list-cross'
-												/>
-											</li>
-											<li className='assignee-list'>
-												Kayla Davis{' '}
-												<FontAwesomeIcon
-													icon={faXmark}
-													className='assignee-list-cross'
-												/>
-											</li>
-											<li className='assignee-list'>
-												Andre Chen{' '}
-												<FontAwesomeIcon
-													icon={faXmark}
-													className='assignee-list-cross'
-												/>
-											</li>
-											<li className='assignee-list'>
-												Andre Chen{' '}
-												<FontAwesomeIcon
-													icon={faXmark}
-													className='assignee-list-cross'
-												/>
-											</li>
-											<li className='assignee-list'>
-												Andre Chen{' '}
-												<FontAwesomeIcon
-													icon={faXmark}
-													className='assignee-list-cross'
-												/>
-											</li>
+											<li className=' mt-1 mb-1 name-list'>Jason Smith</li>
+											<li className=' mt-1 mb-1 name-list'>Kayla Davis</li>
+											<li className=' mt-1 mb-1 name-list'>Andrew Chen</li>
 										</ul>
-									</div>
+									</div> */}
+									<AvailableEmployees handleRadioChange={handleRadioChange} />
 								</Col>
 								<Col style={{ textAlign: 'right' }} className='mt-5 '>
 									<Button

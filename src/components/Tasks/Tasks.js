@@ -39,15 +39,18 @@ function Tasks({
 
 	async function fetchTaskData() {
 		const data = await fetchTasks();
-		updateTasks(data);
-		fetchEmployeeNames(data);
+		await updateTasks(data);
+		await fetchEmployeeNames(data);
 	}
 
 	async function fetchEmployeeNames(tasks) {
-		const names = {};
+		const names = { ...employeeNames }; // Copy the existing employeeNames object
+
 		for (const task of tasks) {
-			const employeeName = await getEmployeeName(task);
-			names[task.id] = employeeName;
+			if (!names[task.id]) {
+				const employeeName = await getEmployeeName(task);
+				names[task.id] = employeeName;
+			}
 		}
 		setEmployeeNames(names);
 	}
