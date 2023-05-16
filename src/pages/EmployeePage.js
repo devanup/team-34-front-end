@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import Tasks from '../components/Tasks/Tasks';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
@@ -12,6 +12,7 @@ import { updateEmployee } from '../components/Employees/updateEmployee';
 import { fetchEmployeeByID } from '../components/Employees/fetchEmployeeByID';
 import { deleteEmployee } from '../components/Employees/deleteEmployee';
 import { useNavigate } from 'react-router-dom';
+import { TaskProvider } from '../components/Tasks/TaskContext';
 
 const departmentList = [
 	{ value: 'Marketing & Sales', label: 'Marketing & Sales' },
@@ -263,14 +264,16 @@ export const EmployeePage = () => {
 						{/* view employee specific Tasks here */}
 						<Col md={12} className='mt-4'>
 							<div className='properties'>
-								<Tasks
-									showActions={true}
-									showViewTaskButton={false}
-									hideDeleteButton={true}
-									tasksByEmpl={tasksByEmpl}
-									tasksByEmplCount={tasksByEmpl.length}
-									employeeName={employeeName}
-								/>
+								<TaskProvider>
+									<Tasks
+										showActions={true}
+										showViewTaskButton={false}
+										hideDeleteButton={true}
+										tasksByEmpl={tasksByEmpl}
+										tasksByEmplCount={tasksByEmpl.length}
+										employeeName={employeeName}
+									/>
+								</TaskProvider>
 							</div>
 						</Col>
 						{editEnable && (
