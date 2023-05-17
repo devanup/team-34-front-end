@@ -6,9 +6,25 @@ function AvailableEmployees({ handleRadioChange }) {
 	const [availableEmployees, setAvailableEmployees] = useState([]);
 
 	useEffect(() => {
-		fetchEmployeesWithNoTasks();
+		fetchAllEmployees();
 	}, []);
 
+	async function fetchAllEmployees() {
+		const employees = await fetchEmployees();
+		try {
+			const employeesWithDetails = await Promise.all(
+				employees.map(async (employee) => {
+					const employeeById = await fetchEmployeeByID(employee.id);
+					return { ...employee, tasks: employeeById.Tasks };
+				}),
+			);
+			setAvailableEmployees(employeesWithDetails);
+		} catch (error) {
+			console.error('Error fetching employees:', error);
+		}
+	}
+
+	/*
 	async function fetchEmployeesWithNoTasks() {
 		const employees = await fetchEmployees();
 		const employeesWithNoTasks = [];
@@ -25,6 +41,7 @@ function AvailableEmployees({ handleRadioChange }) {
 			console.error('Error fetching employees:', error);
 		}
 	}
+	*/
 
 	return (
 		<div
