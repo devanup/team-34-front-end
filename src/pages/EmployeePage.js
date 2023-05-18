@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import Tasks from '../components/Tasks/Tasks';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
@@ -50,7 +50,7 @@ export const EmployeePage = () => {
 			console.log('Employee updated successfully!');
 		} catch (error) {
 			// Handle error
-			console.error('Error deleting employee:', error);
+			console.error('Error updating employee:', error);
 		}
 	}
 	const handleFirstNameChange = (e) => {

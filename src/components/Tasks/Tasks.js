@@ -11,8 +11,7 @@ import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useContext, useState, useEffect } from 'react';
 import { CreateTaskForm } from './CreateTaskForm';
-// import { TaskPage } from '../../pages/TaskPage';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import TaskContext from './TaskContext';
 import { fetchTasks } from './fetchTasks';
 import { fetchTaskByID } from './fetchTaskByID';
@@ -29,7 +28,6 @@ function Tasks({
 }) {
 	const { tasks, updateTasks } = useContext(TaskContext);
 	const [displayForm, setDisplayForm] = useState(false);
-	const [selectedTask, setSelectedTask] = useState(null);
 	const [employeeNames, setEmployeeNames] = useState({});
 
 	useEffect(() => {
@@ -78,8 +76,6 @@ function Tasks({
 	const navigate = useNavigate();
 
 	const handleViewBtn = (task) => {
-		setSelectedTask(task);
-		console.log(task);
 		// Route to the corresponding Task page
 		navigate(`/tasks/${task.id}`, { state: { task } });
 	};
@@ -90,7 +86,6 @@ function Tasks({
 
 	async function handleDeleteBtn(id) {
 		const task = await fetchTaskByID(id);
-		console.log('task', task);
 		let confirmMessage = ``;
 		// Filter tasks with status 'not started'
 		const emplAssigned = '';
@@ -213,8 +208,6 @@ function Tasks({
 											</span>
 										</td>
 										<td>{employeeNames[task.id]}</td>
-										{/* <td>{employeeName ? employeeName : task.assignee}</td> */}
-										{/* <td>{task.employeeId ? task.employeeId : 'NA'}</td> */}
 
 										{showActions && (
 											<td>
@@ -239,17 +232,6 @@ function Tasks({
 									</tr>
 								))
 							)}
-							{/* Display when the state is empty */}
-							{/* <tr>
-								<td colSpan='4'>
-									<div className='empty-state'>
-										<div className='mt-4 mb-4 empty-state-icon-wrap tick-icon'></div>
-										<h3>You're on top of things!</h3>
-										<p>No new tasks at the moment</p>
-									</div>
-								</td>
-							</tr> */}
-							{}
 						</tbody>
 					</Table>
 				</Col>
@@ -260,6 +242,7 @@ function Tasks({
 					handleCloseFormBtn={handleCloseFormBtn}
 					tasks={tasks}
 					updateTasks={updateTasks}
+					employeeNames={employeeNames}
 				/>
 			)}
 			{/* {selectedTask !== null && <TaskView task={selectedTask} />} */}

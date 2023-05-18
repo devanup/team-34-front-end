@@ -8,29 +8,27 @@ import {
 	faCheckCircle,
 	faTrashCan,
 } from '@fortawesome/free-regular-svg-icons';
-import { faPen, faFloppyDisk } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
 import { fetchTaskByID } from '../components/Tasks/fetchTaskByID';
+import { fetchEmployees } from '../components/Employees/fetchEmployees';
+import { updateTask } from '../components/Tasks/updateTask';
+import { useNavigate } from 'react-router-dom';
+import { deleteTask } from '../components/Tasks/deleteTask';
+import EmployeesForList from '../components/Employees/EmployeesForList';
+import { fetchEmployeeByID } from '../components/Employees/fetchEmployeeByID';
 
 const priorityList = [
-	{ value: 'Low', label: 'Low' },
-	{ value: 'Medium', label: 'Medium' },
-	{ value: 'High', label: 'High' },
+	{ value: 'low', label: 'Low' },
+	{ value: 'medium', label: 'Medium' },
+	{ value: 'high', label: 'High' },
 ];
 const statusList = [
-	{ value: 'Not-Started', label: 'Not-Started' },
+	{ value: 'not started', label: 'Not-Started' },
 	// { value: 'In-Progress', label: 'In-Progress' },
-	{ value: 'Completed', label: 'Completed' },
-];
-const assigneeList = [
-	{ value: 'Mark Davidson', label: 'Mark Davidson' },
-	{ value: 'Laura Huff', label: 'Laura Huff' },
-	{ value: 'Christian Wu', label: 'Christian Wu' },
-	{ value: 'Jason Smith', label: 'Jason Smith' },
-	{ value: 'Kayla Davis', label: 'Kayla Davis' },
-	{ value: 'Andrew Chen', label: 'Andrew Chen' },
+	{ value: 'completed', label: 'Completed' },
 ];
 
 export const TaskPage = () => {
@@ -38,24 +36,46 @@ export const TaskPage = () => {
 	const task = state?.task;
 	// const employeeState = state?.employee;
 	const [tasksByEmployee, setTasksByEmployee] = useState([]);
-	const employeeName = tasksByEmployee?.Fname + ' ' + tasksByEmployee?.Lname;
+	// const employeeName = tasksByEmployee?.Fname + ' ' + tasksByEmployee?.Lname;
+	const [employeeName, setEmployeeName] = useState('');
+
 	const [editEnable, setEditEnable] = useState(false);
+
+	const employeeList = EmployeesForList();
+
 	const handleEdit = () => {
 		setEditEnable(true);
 	};
 	const [selectedTask, setSelectedTask] = useState(task);
+	const [assigneeList, setAssigneeList] = useState([]);
 
 	const handleCancel = () => {
 		setEditEnable(false);
 		setSelectedTask(task);
 	};
-	const handleSave = () => {
+	async function handleSave() {
 		setEditEnable(false);
+		try {
+			const updatedTask = await updateTask(selectedTask.id, {
+				description: selectedTask.description,
+				priority: selectedTask.priority,
+				status: selectedTask.status,
+				employeeId: selectedTask.assignee,
+			});
+			setSelectedTask(updatedTask);
+			setTasksByEmployee(updatedTask);
+			const updatedAssignee = await fetchEmployeeByID(selectedTask.assignee);
+			setEmployeeName(updatedAssignee.Fname + ' ' + updatedAssignee.Lname);
+			// console.log('Task updated successfully!');
+		} catch (error) {
+			// Handle error
+			console.error('Error updating task:', error);
+		}
 		task.description = selectedTask.description;
 		task.priority = selectedTask.priority;
 		task.status = selectedTask.status;
 		task.assignee = selectedTask.assignee;
-	};
+	}
 	const handleDescriptionChange = (e) => {
 		const newTask = { ...selectedTask, description: e.target.value };
 		setSelectedTask(newTask);
@@ -67,27 +87,65 @@ export const TaskPage = () => {
 	const handleStatusChange = (e) => {
 		const newTask = { ...selectedTask, status: e.target.value };
 		setSelectedTask(newTask);
-		// console.log('task.status: ', task.status);
-		// console.log('newTask.status: ', newTask.status);
-		// console.log('task: ', task);
-		// console.log('newTask: ', newTask);
 	};
 	const handleAssigneeChange = (e) => {
 		const newTask = { ...selectedTask, assignee: e.target.value };
 		setSelectedTask(newTask);
-		// console.log('task.status: ', task.status);
-		// console.log('newTask.status: ', newTask.status);
-		// console.log('task: ', task);
-		// console.log('newTask: ', newTask);
 	};
+
+	const navigate = useNavigate();
+
+	async function handleDeleteBtn(id) {
+		// Display a confirmation dialog
+		const confirmDelete = window.confirm(
+			'Are you sure you want to delete this task?',
+		);
+
+		if (confirmDelete) {
+			try {
+				await deleteTask(id);
+				// Redirect to the employee list or perform any other necessary action
+				navigate('/tasks');
+			} catch (error) {
+				// Handle error
+				console.error('Error deleting task:', error);
+			}
+		}
+	}
+
+	useEffect(() => {
+		// Update employeeName whenever tasksByEmployee or selectedTask changes
+		if (tasksByEmployee && tasksByEmployee.Fname && tasksByEmployee.Lname) {
+			setEmployeeName(tasksByEmployee.Fname + ' ' + tasksByEmployee.Lname);
+		} else {
+			setEmployeeName('Unassigned');
+		}
+	}, [tasksByEmployee, selectedTask]);
+
 	useEffect(() => {
 		fetchTaskData();
+		setSelectedTask(task);
+		async function getData() {
+			try {
+				const employeesData = await fetchEmployees();
+
+				const list = employeesData.map((employee) => ({
+					value: employee.id.toString(),
+					label: `${employee.Fname} ${employee.Lname}`,
+				}));
+
+				setAssigneeList(list);
+			} catch (error) {
+				console.error('Error:', error);
+			}
+		}
+
+		getData();
 	}, [task]);
 
 	async function fetchTaskData() {
 		const tasks = await fetchTaskEmployee(task.id);
 		setTasksByEmployee(tasks);
-		console.log('TASKS BY EMPLOYEE: ', tasks);
 	}
 	async function fetchTaskEmployee(id) {
 		try {
@@ -136,7 +194,7 @@ export const TaskPage = () => {
 							{!editEnable && (
 								<div className='mb-3 name-description'>
 									{/* <h4 className='m-0'>{task.description}</h4> */}
-									<h4 className='m-0 p-0'>{task.description}</h4>
+									<h4 className='m-0 p-0'>{selectedTask.description}</h4>
 								</div>
 							)}
 						</Col>
@@ -151,7 +209,7 @@ export const TaskPage = () => {
 							<div className='properties property-title'>Priority</div>
 						</Col>
 						<Col md={9} className='mb-4'>
-							{!editEnable && task.priority}
+							{!editEnable && selectedTask.priority}
 							{editEnable && (
 								<Form.Select
 									aria-label='Default select example'
@@ -160,7 +218,7 @@ export const TaskPage = () => {
 									onChange={handlePriorityChange}
 								>
 									<option selected disabled>
-										{task?.priority}
+										{selectedTask?.priority}
 									</option>
 									{priorityList.map((_priority) => (
 										<option key={_priority.value} value={_priority.value}>
@@ -176,7 +234,7 @@ export const TaskPage = () => {
 						</Col>
 						<Col md={9} className={`mb-4`}>
 							<div className='properties'>
-								{!editEnable && task.status}
+								{!editEnable && selectedTask.status}
 								{editEnable && (
 									<Form.Select
 										aria-label='Default select example'
@@ -185,7 +243,7 @@ export const TaskPage = () => {
 										onChange={handleStatusChange}
 									>
 										<option selected disabled>
-											{task?.status}
+											{selectedTask?.status}
 										</option>
 										{statusList.map((_status) => (
 											<option key={_status.value} value={_status.value}>
@@ -208,6 +266,7 @@ export const TaskPage = () => {
 										aria-label='Default select example'
 										className='assignee-select'
 										style={{ textTransform: 'capitalize' }}
+										value={selectedTask.assignee}
 										onChange={handleAssigneeChange}
 									>
 										<option selected disabled>
@@ -224,7 +283,10 @@ export const TaskPage = () => {
 						</Col>
 						{editEnable && (
 							<Col md={12} className='mt-4 mb-4'>
-								<Button variant='secondary'>
+								<Button
+									variant='secondary'
+									onClick={() => handleDeleteBtn(selectedTask.id)}
+								>
 									<FontAwesomeIcon icon={faTrashCan} className='remove-btn' />
 									Remove
 								</Button>
