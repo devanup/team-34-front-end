@@ -8,7 +8,12 @@ import { fetchEmployees } from '../Employees/fetchEmployees';
 import { fetchEmployeeByID } from '../Employees/fetchEmployeeByID';
 import AvailableEmployees from '../Employees/AvailableEmployees';
 
-export const CreateTaskForm = ({ handleCloseFormBtn, tasks, updateTasks }) => {
+export const CreateTaskForm = ({
+	handleCloseFormBtn,
+	tasks,
+	updateTasks,
+	employeeNames,
+}) => {
 	const [formSuccess, setFormSuccess] = useState(false);
 	const [selectedEmployee, setSelectedEmployee] = useState('');
 
@@ -24,6 +29,7 @@ export const CreateTaskForm = ({ handleCloseFormBtn, tasks, updateTasks }) => {
 
 	useEffect(() => {
 		document.addEventListener('keydown', handleKeyDown);
+
 		return () => {
 			document.removeEventListener('keydown', handleKeyDown);
 		};

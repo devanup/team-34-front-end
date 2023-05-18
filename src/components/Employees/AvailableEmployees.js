@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { fetchEmployees } from '../Employees/fetchEmployees'; // Adjust import paths as needed
-import { fetchEmployeeByID } from '../Employees/fetchEmployeeByID'; // Adjust import paths as needed
+import { fetchEmployees } from './fetchEmployees'; // Adjust import paths as needed
+import { fetchEmployeeByID } from './fetchEmployeeByID'; // Adjust import paths as needed
 
 function AvailableEmployees({ handleRadioChange }) {
 	const [availableEmployees, setAvailableEmployees] = useState([]);
