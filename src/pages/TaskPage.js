@@ -13,25 +13,20 @@ import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
 import { fetchTaskByID } from '../components/Tasks/fetchTaskByID';
+import { fetchEmployees } from '../components/Employees/fetchEmployees';
+import { updateTask } from '../components/Tasks/updateTask';
 
 const priorityList = [
-	{ value: 'Low', label: 'Low' },
-	{ value: 'Medium', label: 'Medium' },
-	{ value: 'High', label: 'High' },
+	{ value: 'low', label: 'Low' },
+	{ value: 'medium', label: 'Medium' },
+	{ value: 'high', label: 'High' },
 ];
 const statusList = [
-	{ value: 'Not-Started', label: 'Not-Started' },
+	{ value: 'not started', label: 'Not Started' },
 	// { value: 'In-Progress', label: 'In-Progress' },
-	{ value: 'Completed', label: 'Completed' },
+	{ value: 'completed', label: 'Completed' },
 ];
-const assigneeList = [
-	{ value: 'Mark Davidson', label: 'Mark Davidson' },
-	{ value: 'Laura Huff', label: 'Laura Huff' },
-	{ value: 'Christian Wu', label: 'Christian Wu' },
-	{ value: 'Jason Smith', label: 'Jason Smith' },
-	{ value: 'Kayla Davis', label: 'Kayla Davis' },
-	{ value: 'Andrew Chen', label: 'Andrew Chen' },
-];
+
 
 export const TaskPage = () => {
 	const { state } = useLocation();
@@ -45,6 +40,8 @@ export const TaskPage = () => {
 	};
 	const [selectedTask, setSelectedTask] = useState(task);
 
+	const [assigneeList, setAssigneeList] = useState([]);
+
 	const handleCancel = () => {
 		setEditEnable(false);
 		setSelectedTask(task);
@@ -55,6 +52,18 @@ export const TaskPage = () => {
 		task.priority = selectedTask.priority;
 		task.status = selectedTask.status;
 		task.assignee = selectedTask.assignee;
+
+		const updatedTaskData = {
+			description: task.description,
+			priority: task.priority,
+			status: task.status, 
+			employeeId: task.assignee
+		}
+
+		console.log(updatedTaskData);
+
+		updateTask(selectedTask.id, updatedTaskData);
+		
 	};
 	const handleDescriptionChange = (e) => {
 		const newTask = { ...selectedTask, description: e.target.value };
@@ -74,6 +83,7 @@ export const TaskPage = () => {
 	};
 	const handleAssigneeChange = (e) => {
 		const newTask = { ...selectedTask, assignee: e.target.value };
+		console.log(e.target.value);
 		setSelectedTask(newTask);
 		// console.log('task.status: ', task.status);
 		// console.log('newTask.status: ', newTask.status);
@@ -82,12 +92,30 @@ export const TaskPage = () => {
 	};
 	useEffect(() => {
 		fetchTaskData();
+		
+		async function getData() {
+			try {
+			  const employeesData = await fetchEmployees(); 
+
+			  const list = employeesData.map(employee => ({
+				value: employee.id.toString(),
+				label: `${employee.Fname} ${employee.Lname}`
+			}));
+
+			setAssigneeList(list);
+			} catch (error) {
+			  console.error('Error:', error);
+			}
+		  }
+
+		getData()
+
+
 	}, [task]);
 
 	async function fetchTaskData() {
 		const tasks = await fetchTaskEmployee(task.id);
 		setTasksByEmployee(tasks);
-		console.log('TASKS BY EMPLOYEE: ', tasks);
 	}
 	async function fetchTaskEmployee(id) {
 		try {
@@ -197,6 +225,7 @@ export const TaskPage = () => {
 							</div>
 						</Col>
 
+
 						<Col md={3} className='mb-4'>
 							<div className='properties property-title'>Assignee</div>
 						</Col>
@@ -222,6 +251,8 @@ export const TaskPage = () => {
 								)}
 							</div>
 						</Col>
+
+
 						{editEnable && (
 							<Col md={12} className='mt-4 mb-4'>
 								<Button variant='secondary'>
