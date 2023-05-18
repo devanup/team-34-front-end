@@ -10,12 +10,12 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet';
 import { fetchTaskByID } from '../components/Tasks/fetchTaskByID';
 import { fetchEmployees } from '../components/Employees/fetchEmployees';
 import { updateTask } from '../components/Tasks/updateTask';
-import { useNavigate } from 'react-router-dom';
 import { deleteTask } from '../components/Tasks/deleteTask';
 import EmployeesForList from '../components/Employees/EmployeesForList';
 import { fetchEmployeeByID } from '../components/Employees/fetchEmployeeByID';
@@ -156,6 +156,7 @@ export const TaskPage = () => {
 			return [];
 		}
 	}
+
 	return (
 		<div>
 			<Helmet>
@@ -260,7 +261,9 @@ export const TaskPage = () => {
 						</Col>
 						<Col md={9} className='mb-4'>
 							<div className='properties assignee-property'>
-								{!editEnable && (employeeName ? employeeName : 'Unassigned')}
+								<span>
+									{!editEnable && (employeeName ? employeeName : 'Unassigned')}
+								</span>
 								{editEnable && (
 									<Form.Select
 										aria-label='Default select example'
@@ -283,10 +286,7 @@ export const TaskPage = () => {
 						</Col>
 						{editEnable && (
 							<Col md={12} className='mt-4 mb-4'>
-								<Button
-									variant='secondary'
-									onClick={() => handleDeleteBtn(selectedTask.id)}
-								>
+								<Button variant='secondary'>
 									<FontAwesomeIcon icon={faTrashCan} className='remove-btn' />
 									Remove
 								</Button>
