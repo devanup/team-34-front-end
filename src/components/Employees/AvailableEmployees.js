@@ -14,10 +14,7 @@ function AvailableEmployees({ handleRadioChange }) {
 		const employeesWithNoTasks = [];
 		try {
 			for (const employee of employees) {
-				const employeeById = await fetchEmployeeByID(employee.id);
-				if (employeeById.Tasks.length === 0) {
 					employeesWithNoTasks.push(employee);
-				}
 			}
 
 			setAvailableEmployees(employeesWithNoTasks);
