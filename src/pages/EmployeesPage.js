@@ -8,8 +8,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import Employees from '../components/Employees/Employees';
 import { Helmet } from 'react-helmet';
-import { fetchEmployees } from '../components/Employees/fetchEmployees';
-import { AddEmployee } from '../components/Employees/AddEmployeeForm';
 
 import { EmployeeProvider } from '../components/Employees/EmployeeContext';
 
